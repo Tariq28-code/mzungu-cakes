@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /orders/{orderId} {
+      // Customers may submit orders from the public website.
+      allow create: if request.resource.data.status == 'New';
+      // Only signed-in Firebase users can view or manage orders.
+      allow read, update, delete: if request.auth != null;
+    }
+  }
+}

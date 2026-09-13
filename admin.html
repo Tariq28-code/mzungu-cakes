@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MZUNGU Cakes | Admin Orders</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <style>
+    :root{--ivory:#faf3ec;--paper:#fffdfb;--plum:#3d1f3a;--soft:#5b3a57;--wine:#5c1a32;--line:rgba(61,31,58,.16);}
+    *{box-sizing:border-box} body{margin:0;background:var(--ivory);color:var(--plum);font:15px/1.5 Inter,Arial,sans-serif}.hidden{display:none!important}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 24px}.top{border-bottom:1px solid var(--line);padding:22px 0}.top-inner{display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font:600 25px Georgia,serif;color:var(--wine)}
+    button,.input{font:inherit}.button{border:0;border-radius:8px;padding:11px 16px;background:var(--wine);color:white;cursor:pointer;font-weight:600}.button.secondary{background:transparent;border:1px solid var(--line);color:var(--plum)}
+    main{padding:38px 0}.login,.dashboard{max-width:100%}.login{max-width:420px;margin:50px auto;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px}.login h1{margin-top:0;font:600 29px Georgia,serif}.field{display:block;margin:16px 0 6px;font-weight:600}.input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;background:white}.login .button{width:100%;margin-top:18px}.error{color:#a3263b;margin:12px 0 0}.dashboard-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:24px}.dashboard h1{font:600 34px Georgia,serif;margin:0}.muted{color:var(--soft)}.orders{display:grid;gap:16px}.order{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px}.order-head{display:flex;justify-content:space-between;gap:12px;align-items:start}.order h2{font:600 19px Georgia,serif;margin:0 0 3px}.order-meta{color:var(--soft);font-size:13px}.status{border:1px solid var(--line);border-radius:7px;padding:8px;background:white;color:var(--plum);font-weight:600}.details{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0;padding-top:16px;border-top:1px solid var(--line)}.details strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}.items{margin:0;padding-left:18px;color:var(--soft)}.empty{padding:40px;text-align:center;background:var(--paper);border:1px dashed var(--line);border-radius:14px;color:var(--soft)}
+    @media(max-width:600px){.top-inner,.dashboard-head{align-items:flex-start;flex-direction:column}.details{grid-template-columns:1fr}.order-head{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="wrap top-inner"><div class="brand">MZUNGU Cakes / Admin</div><button class="button secondary hidden" id="logoutBtn">Log out</button></div></header>
+  <main class="wrap">
+    <section class="login" id="loginPanel">
+      <h1>Order dashboard</h1>
+      <p class="muted">Sign in to view and manage customer orders.</p>
+      <form id="loginForm">
+        <label class="field" for="email">Email</label>
+        <input class="input" id="email" type="email" required autocomplete="username">
+        <label class="field" for="password">Password</label>
+        <input class="input" id="password" type="password" required autocomplete="current-password">
+        <button class="button" type="submit">Sign in</button>
+        <p class="error" id="loginError"></p>
+      </form>
+    </section>
+    <section class="dashboard hidden" id="dashboardPanel">
+      <div class="dashboard-head"><div><h1>Orders</h1><div class="muted" id="orderCount"></div></div><button class="button secondary" id="refreshBtn">Refresh</button></div>
+      <div class="orders" id="orders"><div class="empty">Loading orders...</div></div>
+    </section>
+  </main>
+  <script>
+    (function(){
+      var firebaseConfig = {
+        apiKey: 'AIzaSyCBVSoFMfGLsmQwGhE0uU25C7HYFKd2ofk',
+        authDomain: 'mzungu-cakes.firebaseapp.com',
+        projectId: 'mzungu-cakes',
+        storageBucket: 'mzungu-cakes.firebasestorage.app',
+        messagingSenderId: '465181508645',
+        appId: '1:465181508645:web:91efd6ac88120a290f6bcc'
+      };
+      firebase.initializeApp(firebaseConfig);
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+      var loginPanel = document.getElementById('loginPanel');
+      var dashboardPanel = document.getElementById('dashboardPanel');
+      var logoutBtn = document.getElementById('logoutBtn');
+      var ordersEl = document.getElementById('orders');
+
+      document.getElementById('loginForm').addEventListener('submit', function(event){
+        event.preventDefault();
+        document.getElementById('loginError').textContent = '';
+        auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value)
+          .catch(function(error){ document.getElementById('loginError').textContent = error.message; });
+      });
+      logoutBtn.addEventListener('click', function(){ auth.signOut(); });
+      document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+
+      auth.onAuthStateChanged(function(user){
+        var signedIn = !!user;
+        loginPanel.classList.toggle('hidden', signedIn);
+        dashboardPanel.classList.toggle('hidden', !signedIn);
+        logoutBtn.classList.toggle('hidden', !signedIn);
+        if (signedIn) loadOrders();
+      });
+
+      function loadOrders(){
+        ordersEl.innerHTML = '<div class="empty">Loading orders...</div>';
+        db.collection('orders').orderBy('createdAt', 'desc').get().then(function(snapshot){
+          document.getElementById('orderCount').textContent = snapshot.size + ' order' + (snapshot.size === 1 ? '' : 's');
+          if (snapshot.empty){ ordersEl.innerHTML = '<div class="empty">No orders yet.</div>'; return; }
+          ordersEl.innerHTML = '';
+          snapshot.forEach(function(doc){ ordersEl.appendChild(orderCard(doc.id, doc.data())); });
+        }).catch(function(error){ ordersEl.innerHTML = '<div class="empty">Could not load orders: '+escapeHTML(error.message)+'</div>'; });
+      }
+
+      function orderCard(id, order){
+        var card = document.createElement('article'); card.className = 'order';
+        var customer = order.customer || {};
+        var items = order.items || [];
+        var created = order.createdAt && order.createdAt.toDate ? order.createdAt.toDate().toLocaleString() : 'Just submitted';
+        card.innerHTML = '<div class="order-head"><div><h2>'+escapeHTML(order.reference || id)+'</h2><div class="order-meta">Submitted '+escapeHTML(created)+'</div></div><select class="status" aria-label="Order status"><option>New</option><option>Confirmed</option><option>Ready</option><option>Completed</option></select></div>' +
+          '<div class="details"><div><strong>Customer</strong>'+escapeHTML(customer.name || '')+'</div><div><strong>Phone</strong>'+escapeHTML(customer.phone || '')+'</div><div><strong>Fulfilment</strong>'+escapeHTML(order.fulfilment || '')+'</div><div><strong>Date needed</strong>'+escapeHTML(order.dateNeeded || '')+'</div><div><strong>Address</strong>'+escapeHTML(order.address || 'Pickup at counter')+'</div><div><strong>Total</strong>TZS '+Number(order.subtotal || 0).toLocaleString('en-US')+'</div></div>' +
+          '<strong>Items</strong><ul class="items">'+items.map(function(item){ return '<li>'+escapeHTML(item.title+' - '+item.meta+' - TZS '+Number(item.price || 0).toLocaleString('en-US'))+'</li>'; }).join('')+'</ul>' +
+          (order.notes ? '<p><strong>Notes:</strong> '+escapeHTML(order.notes)+'</p>' : '');
+        var status = card.querySelector('.status'); status.value = order.status || 'New';
+        status.addEventListener('change', function(){ db.collection('orders').doc(id).update({status:status.value}); });
+        return card;
+      }
+      function escapeHTML(value){ var div=document.createElement('div'); div.textContent=String(value); return div.innerHTML; }
+    })();
+  </script>
+</body>
+</html>

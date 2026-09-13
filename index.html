@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
   :root{
     --ivory:#FAF3EC;
@@ -1261,6 +1263,17 @@
 (function(){
   "use strict";
 
+  var firebaseConfig = {
+    apiKey: "AIzaSyCBVSoFMfGLsmQwGhE0uU25C7HYFKd2ofk",
+    authDomain: "mzungu-cakes.firebaseapp.com",
+    projectId: "mzungu-cakes",
+    storageBucket: "mzungu-cakes.firebasestorage.app",
+    messagingSenderId: "465181508645",
+    appId: "1:465181508645:web:91efd6ac88120a290f6bcc"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+
   document.getElementById('year').textContent = new Date().getFullYear();
 
   /* ---------------- Data ---------------- */
@@ -1676,28 +1689,52 @@
       return i.title + ' — ' + i.meta + (i.notes ? ' ("'+i.notes+'")' : '') + ' — ' + formatTZS(i.price);
     });
     var subtotal = cart.reduce(function(sum,i){ return sum + i.price; }, 0);
+    var orderData = {
+      reference: ref,
+      customer: { name:name, phone:phone },
+      fulfilment: fulfil,
+      address: address,
+      dateNeeded: date,
+      notes: extraNotes,
+      items: cart,
+      subtotal: subtotal,
+      status: 'New',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
 
-    var summaryHTML =
-      '<strong>Name:</strong> ' + escapeHTML(name) + '<br>' +
-      '<strong>Phone:</strong> ' + escapeHTML(phone) + '<br>' +
-      '<strong>' + (fulfil === 'delivery' ? 'Delivery to' : 'Pickup') + ':</strong> ' + (fulfil === 'delivery' ? escapeHTML(address) : 'MZUNGU Cakes counter') + '<br>' +
-      '<strong>Date needed:</strong> ' + escapeHTML(date) + '<br><br>' +
-      itemLines.map(escapeHTML).join('<br>') +
-      '<br><br><strong>Subtotal:</strong> ' + formatTZS(subtotal) +
-      (extraNotes ? ('<br><br><strong>Notes:</strong> ' + escapeHTML(extraNotes)) : '');
+    var placeOrderButton = checkoutForm.querySelector('button[type="submit"]');
+    placeOrderButton.disabled = true;
+    placeOrderButton.textContent = 'Saving order...';
 
-    document.getElementById('orderRef').textContent = ref;
-    document.getElementById('confirmSummary').innerHTML = summaryHTML;
+    db.collection('orders').add(orderData).then(function(){
 
-    var waText = 'Hi MZUNGU Cakes! I just placed order ' + ref + ' (' + itemLines.join(' | ') + ') for ' + date + '. My name is ' + name + '.';
-    document.getElementById('whatsappConfirmLink').href = 'https://wa.me/255759683053?text=' + encodeURIComponent(waText);
+      var summaryHTML =
+        '<strong>Name:</strong> ' + escapeHTML(name) + '<br>' +
+        '<strong>Phone:</strong> ' + escapeHTML(phone) + '<br>' +
+        '<strong>' + (fulfil === 'delivery' ? 'Delivery to' : 'Pickup') + ':</strong> ' + (fulfil === 'delivery' ? escapeHTML(address) : 'MZUNGU Cakes counter') + '<br>' +
+        '<strong>Date needed:</strong> ' + escapeHTML(date) + '<br><br>' +
+        itemLines.map(escapeHTML).join('<br>') +
+        '<br><br><strong>Subtotal:</strong> ' + formatTZS(subtotal) +
+        (extraNotes ? ('<br><br><strong>Notes:</strong> ' + escapeHTML(extraNotes)) : '');
 
-    checkoutForm.classList.add('hidden');
-    confirmBox.classList.remove('hidden');
-    document.getElementById('modalTitle').textContent = 'Thank you!';
+      document.getElementById('orderRef').textContent = ref;
+      document.getElementById('confirmSummary').innerHTML = summaryHTML;
 
-    cart = [];
-    renderCart();
+      var waText = 'Hi MZUNGU Cakes! I just placed order ' + ref + ' (' + itemLines.join(' | ') + ') for ' + date + '. My name is ' + name + '.';
+      document.getElementById('whatsappConfirmLink').href = 'https://wa.me/255759683053?text=' + encodeURIComponent(waText);
+
+      checkoutForm.classList.add('hidden');
+      confirmBox.classList.remove('hidden');
+      document.getElementById('modalTitle').textContent = 'Thank you!';
+
+      cart = [];
+      renderCart();
+    }).catch(function(error){
+      console.error('Could not save order:', error);
+      placeOrderButton.disabled = false;
+      placeOrderButton.textContent = 'Place order';
+      alert('We could not save your order. Please try again or contact us on WhatsApp.');
+    });
   });
 
   function escapeHTML(str){

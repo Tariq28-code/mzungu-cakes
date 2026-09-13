@@ -65,3 +65,21 @@ mzungu-cakes-project/
 ├── index.html   ← the whole site
 └── README.md    ← this file
 ```
+
+## Firebase admin orders
+
+Customer checkout orders are saved in Firebase Firestore and can be managed at:
+
+`https://tariq28-code.github.io/mzungu-cakes/admin.html`
+
+Before using the dashboard:
+
+1. Enable Email/Password under Firebase Authentication.
+2. Create the admin user under Authentication → Users.
+3. Create the Firestore database.
+4. Publish the rules in `firestore.rules` from the Firebase console.
+
+The dashboard lets the signed-in admin view orders and change their status to
+New, Confirmed, Ready, or Completed. Keep only trusted users in Firebase
+Authentication because signed-in users are allowed to manage orders by the
+included rules.
