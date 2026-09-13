@@ -223,9 +223,15 @@
   .hero-art{
     background:var(--paper);
     border-radius:28px;
-    padding:36px;
+    padding:16px;
     box-shadow:var(--shadow);
     border:1px solid var(--line);
+  }
+  .hero-photo{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    border-radius:18px;
   }
 
   /* ---------- How it works ---------- */
@@ -452,11 +458,18 @@
     background:var(--paper);
     border:1px solid var(--line);
     border-radius:18px;
-    padding:26px 24px;
+    overflow:hidden;
+  }
+  .menu-photo{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+  }
+  .menu-card-content{
+    padding:22px 24px 26px;
   }
   .menu-icon{
-    font-size:28px;
-    margin-bottom:10px;
+    display:none;
   }
   .menu-card h3{
     font-size:18px;
@@ -888,7 +901,7 @@
         <a href="#builder" class="cta">Start designing</a>
       </div>
       <div class="hero-art">
-        <div id="heroCake"></div>
+        <img class="hero-photo" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Elegant decorated celebration cake" width="900" height="675">
       </div>
     </div>
   </section>
@@ -985,28 +998,36 @@
       </div>
       <div class="menu-grid">
         <div class="menu-card">
-          <div class="menu-icon" aria-hidden="true">🧁</div>
-          <h3>Cupcakes</h3>
-          <p>Boxed by the dozen, mixed or single flavour.</p>
-          <span class="menu-price">from TZS 28,000 / dozen</span>
+          <img class="menu-photo" src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Decorated cupcakes" width="700" height="438" loading="lazy">
+          <div class="menu-card-content">
+            <h3>Cupcakes</h3>
+            <p>Boxed by the dozen, mixed or single flavour.</p>
+            <span class="menu-price">from TZS 28,000 / dozen</span>
+          </div>
         </div>
         <div class="menu-card">
-          <div class="menu-icon" aria-hidden="true">🍪</div>
-          <h3>Cookies</h3>
-          <p>Classic and decorated cookies, boxed for gifting or sharing.</p>
-          <span class="menu-price">from TZS 12,000 / dozen</span>
+          <img class="menu-photo" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Freshly baked cookies" width="700" height="438" loading="lazy">
+          <div class="menu-card-content">
+            <h3>Cookies</h3>
+            <p>Classic and decorated cookies, boxed for gifting or sharing.</p>
+            <span class="menu-price">from TZS 12,000 / dozen</span>
+          </div>
         </div>
         <div class="menu-card">
-          <div class="menu-icon" aria-hidden="true">🍫</div>
-          <h3>Brownies</h3>
-          <p>Fudgy squares, plain or with nuts and chocolate chunks.</p>
-          <span class="menu-price">from TZS 15,000 / tray</span>
+          <img class="menu-photo" src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Chocolate brownies" width="700" height="438" loading="lazy">
+          <div class="menu-card-content">
+            <h3>Brownies</h3>
+            <p>Fudgy squares, plain or with nuts and chocolate chunks.</p>
+            <span class="menu-price">from TZS 15,000 / tray</span>
+          </div>
         </div>
         <div class="menu-card">
-          <div class="menu-icon" aria-hidden="true">🍞</div>
-          <h3>Loaf Cakes</h3>
-          <p>Banana, marble, or lemon loaf — great for everyday treats.</p>
-          <span class="menu-price">from TZS 18,000 each</span>
+          <img class="menu-photo" src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Sliced loaf cake" width="700" height="438" loading="lazy">
+          <div class="menu-card-content">
+            <h3>Loaf Cakes</h3>
+            <p>Banana, marble, or lemon loaf — great for everyday treats.</p>
+            <span class="menu-price">from TZS 18,000 each</span>
+          </div>
         </div>
         <div class="menu-card">
           <div class="menu-icon" aria-hidden="true">🥤</div>
