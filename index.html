@@ -378,6 +378,13 @@
   }
   .option-card label .opt-name{font-weight:600;color:var(--plum);}
   .option-card label .opt-meta{font-size:12.5px;color:var(--plum-soft);}
+  .option-card label .opt-image{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:4px;
+  }
   .option-card input:checked + label{
     border-color:var(--wine);
     background:#FBEEF0;
@@ -423,6 +430,18 @@
   .swatch input:focus-visible + label .swatch-dot{
     outline:3px solid var(--gold);
     outline-offset:2px;
+  }
+
+  .builder-note{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 20px;
+    margin:-12px 0 32px;
+    padding:14px 16px;
+    border-left:3px solid var(--gold);
+    background:var(--ivory-deep);
+    color:var(--plum-soft);
+    font-size:13px;
   }
 
   textarea{
@@ -938,12 +957,23 @@
         <p>Every choice updates your cake and price live, so you can see exactly what you're ordering before you send it.</p>
       </div>
 
+      <div class="builder-note">
+        <span>Custom cakes need 2–4 days' notice.</span>
+        <span>Delivery is available across Dar es Salaam.</span>
+        <span>Sizes include estimated servings.</span>
+      </div>
+
       <div class="builder-grid">
         <!-- FORM -->
         <form id="builderForm">
           <fieldset>
             <legend>Occasion</legend>
             <div class="option-grid" id="typeOptions"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Choose a design direction</legend>
+            <div class="option-grid" id="designOptions"></div>
           </fieldset>
 
           <fieldset id="shapeFieldset">
@@ -968,7 +998,7 @@
 
           <fieldset>
             <label class="field-label" for="notes">Notes for the baker (optional)</label>
-            <textarea id="notes" name="notes" placeholder="e.g. write 'Happy Birthday Amina' on top"></textarea>
+            <textarea id="notes" name="notes" placeholder="e.g. write 'Happy Birthday Amina' on top, or describe a design picture you like"></textarea>
           </fieldset>
         </form>
 
@@ -1198,12 +1228,34 @@
     { id:'tiered', name:'Tiered', addon:35000 }
   ];
   var FLAVOURS = [
-    { id:'vanilla',    name:'Vanilla',     addon:0,    color:'#F3E3B8' },
-    { id:'chocolate',  name:'Chocolate',   addon:0,    color:'#6B4226' },
-    { id:'redvelvet',  name:'Red Velvet',  addon:3000, color:'#8C1F2C' },
-    { id:'lemon',      name:'Lemon',       addon:0,    color:'#F2D34B' },
-    { id:'marble',     name:'Fruit Marble',addon:2000, color:'#D97FA3' }
+    { id:'vanilla',    name:'Vanilla',     addon:0,    color:'#F3E3B8', image:'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=75' },
+    { id:'chocolate',  name:'Chocolate',   addon:0,    color:'#6B4226', image:'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=500&q=75' },
+    { id:'redvelvet',  name:'Red Velvet',  addon:3000, color:'#8C1F2C', image:'https://images.unsplash.com/photo-1614707267537-2b1a0f7b1c99?auto=format&fit=crop&w=500&q=75' },
+    { id:'lemon',      name:'Lemon',       addon:0,    color:'#F2D34B', image:'https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=500&q=75' },
+    { id:'marble',     name:'Fruit Marble',addon:2000, color:'#D97FA3', image:'https://images.unsplash.com/photo-1602351447937-745cb720612f?auto=format&fit=crop&w=500&q=75' }
   ];
+  var DESIGNS = {
+    birthday: [
+      { id:'birthday-classic', name:'Classic celebration', meta:'Candles and a joyful finish', image:'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?auto=format&fit=crop&w=600&q=80' },
+      { id:'birthday-floral', name:'Floral and elegant', meta:'Soft colours and delicate details', image:'https://images.unsplash.com/photo-1535141192574-5d4897c12636?auto=format&fit=crop&w=600&q=80' },
+      { id:'birthday-fun', name:'Fun and colourful', meta:'Bright, playful decoration', image:'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=600&q=80' }
+    ],
+    wedding: [
+      { id:'wedding-tiered', name:'Elegant tiered', meta:'A timeless centrepiece', image:'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80' },
+      { id:'wedding-floral', name:'Romantic floral', meta:'Flowers and soft finishing', image:'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80' },
+      { id:'wedding-minimal', name:'Clean and modern', meta:'Simple, polished decoration', image:'https://images.unsplash.com/photo-1535254973040-607b308f0085?auto=format&fit=crop&w=600&q=80' }
+    ],
+    cupcakes: [
+      { id:'cupcakes-mixed', name:'Mixed box', meta:'A variety of colours and flavours', image:'https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=600&q=80' },
+      { id:'cupcakes-themed', name:'Themed set', meta:'Matched to your celebration', image:'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=600&q=80' },
+      { id:'cupcakes-simple', name:'Simple and sweet', meta:'Classic piped icing', image:'https://images.unsplash.com/photo-1587668178277-295251f900ce?auto=format&fit=crop&w=600&q=80' }
+    ],
+    custom: [
+      { id:'custom-inspired', name:'Inspired by a picture', meta:'Share your idea in the notes', image:'https://images.unsplash.com/photo-1542826438-bd32f43d626f?auto=format&fit=crop&w=600&q=80' },
+      { id:'custom-luxe', name:'Luxe finish', meta:'Extra detail for a special event', image:'https://images.unsplash.com/photo-1558301211-0d8c8c6f4e3d?auto=format&fit=crop&w=600&q=80' },
+      { id:'custom-simple', name:'Simple and personal', meta:'Let the message do the talking', image:'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=600&q=80' }
+    ]
+  };
   var ICINGS = [
     { id:'blush',    name:'Blush Pink', color:'#E8B7C0' },
     { id:'ivory',    name:'Ivory',      color:'#F6EFE3' },
@@ -1213,14 +1265,14 @@
     { id:'wine',     name:'Deep Wine',  color:'#5C1A32' }
   ];
   var SIZES = [
-    { id:'small',  name:'Small',  mult:1 },
-    { id:'medium', name:'Medium', mult:1.7 },
-    { id:'large',  name:'Large',  mult:2.6 }
+    { id:'small',  name:'Small',  meta:'Serves about 8–12', mult:1 },
+    { id:'medium', name:'Medium', meta:'Serves about 15–25', mult:1.7 },
+    { id:'large',  name:'Large',  meta:'Serves about 30–50', mult:2.6 }
   ];
   var CUPCAKE_SIZES = [
-    { id:'one-dozen',  name:'1 dozen',  mult:1 },
-    { id:'two-dozen',  name:'2 dozen',  mult:2 },
-    { id:'three-dozen',name:'3 dozen',  mult:3 }
+    { id:'one-dozen',  name:'1 dozen',  meta:'Serves about 10–12', mult:1 },
+    { id:'two-dozen',  name:'2 dozen',  meta:'Serves about 20–24', mult:2 },
+    { id:'three-dozen',name:'3 dozen',  meta:'Serves about 30–36', mult:3 }
   ];
 
   var state = {
@@ -1228,7 +1280,8 @@
     shape:'round',
     flavour:'vanilla',
     icing:'blush',
-    size:'medium'
+    size:'medium',
+    design:'birthday-classic'
   };
   var cart = [];
   var orderCounter = 214; // starting reference sequence
@@ -1243,7 +1296,7 @@
       var meta = item.meta ? item.meta : (item.addon ? ('+TZS ' + item.addon.toLocaleString()) : 'no extra charge');
       wrap.innerHTML =
         '<input type="radio" name="'+groupName+'" id="'+inputId+'" value="'+item.id+'" '+(item.id===selectedId?'checked':'')+'>' +
-        '<label for="'+inputId+'"><span class="opt-name">'+item.name+'</span><span class="opt-meta">'+meta+'</span></label>';
+        '<label for="'+inputId+'">'+(item.image ? '<img class="opt-image" src="'+item.image+'" alt="" loading="lazy">' : '')+'<span class="opt-name">'+item.name+'</span><span class="opt-meta">'+meta+'</span></label>';
       container.appendChild(wrap);
       wrap.querySelector('input').addEventListener('change', function(){ onPick(item.id); });
     });
@@ -1265,6 +1318,10 @@
 
   function currentSizeList(){
     return state.type === 'cupcakes' ? CUPCAKE_SIZES : SIZES;
+  }
+
+  function currentDesignList(){
+    return DESIGNS[state.type] || DESIGNS.custom;
   }
 
   function findById(list, id){
@@ -1392,15 +1449,18 @@
   function renderAllOptions(){
     renderOptionGroup(document.getElementById('typeOptions'), TYPES, 'type', state.type, function(id){
       state.type = id;
+      state.design = currentDesignList()[0].id;
       if (state.type === 'cupcakes' && !CUPCAKE_SIZES.some(function(s){return s.id===state.size;})){
         state.size = CUPCAKE_SIZES[0].id;
       }
       if (state.type !== 'cupcakes' && !SIZES.some(function(s){return s.id===state.size;})){
         state.size = SIZES[1].id;
       }
+      renderOptionGroup(document.getElementById('designOptions'), currentDesignList(), 'design', state.design, function(id){ state.design=id; });
       renderOptionGroup(document.getElementById('sizeOptions'), currentSizeList(), 'size', state.size, function(id){ state.size=id; renderPreview(); });
       renderPreview();
     });
+    renderOptionGroup(document.getElementById('designOptions'), currentDesignList(), 'design', state.design, function(id){ state.design=id; });
     renderOptionGroup(document.getElementById('shapeOptions'), SHAPES, 'shape', state.shape, function(id){ state.shape=id; renderPreview(); });
     renderOptionGroup(document.getElementById('flavourOptions'), FLAVOURS, 'flavour', state.flavour, function(id){ state.flavour=id; renderPreview(); });
     renderSwatches(document.getElementById('icingOptions'), ICINGS, state.icing, function(id){ state.icing=id; renderPreview(); });
@@ -1416,7 +1476,9 @@
     var flavour = findById(FLAVOURS, state.flavour);
     var icing = findById(ICINGS, state.icing);
     var size = findById(currentSizeList(), state.size);
+    var design = findById(currentDesignList(), state.design);
     var parts = [type.name];
+    parts.push(design.name);
     if (state.type !== 'cupcakes'){
       var shape = findById(SHAPES, state.shape);
       parts.push(shape.name + ' shape');
