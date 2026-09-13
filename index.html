@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MZUNGU Cakes — Custom cakes in Dar es Salaam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FAF3EC;
+    --ivory-deep:#F1E7DA;
+    --plum:#3D1F3A;
+    --plum-soft:#5B3A57;
+    --wine:#5C1A32;
+    --blush:#E8B7C0;
+    --blush-deep:#D998A4;
+    --gold:#B8923F;
+    --gold-light:#D9BD82;
+    --ink:#2A1728;
+    --line:rgba(61,31,58,0.16);
+    --paper:#FFFDFB;
+    --shadow: 0 18px 40px -20px rgba(42,23,40,0.35);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    color:var(--plum);
+    margin:0;
+    font-weight:600;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  :focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    background:var(--plum);
+    color:var(--ivory-deep);
+  }
+  .topbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:8px 0;
+    font-size:12.5px;
+  }
+  .topbar-phone{
+    text-decoration:none;
+    color:var(--gold-light);
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+  .topbar-hours{color:rgba(250,243,236,0.75);}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:rgba(250,243,236,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    text-decoration:none;
+  }
+  .logo .script{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:32px;
+    color:var(--wine);
+    line-height:1;
+  }
+  .logo .caps{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.28em;
+    color:var(--plum);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    gap:32px;
+  }
+  nav a{
+    text-decoration:none;
+    font-size:15px;
+    font-weight:500;
+    color:var(--plum);
+    position:relative;
+    padding:4px 0;
+  }
+  nav a::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-2px;
+    height:2px;
+    background:var(--gold);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .25s ease;
+  }
+  nav a:hover::after, nav a:focus-visible::after{transform:scaleX(1);}
+  .cart-btn{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;height:44px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .cart-btn:hover{border-color:var(--gold);}
+  .cart-badge{
+    position:absolute;
+    top:-4px; right:-4px;
+    background:var(--wine);
+    color:var(--ivory);
+    font-size:11px;
+    font-weight:700;
+    min-width:18px;height:18px;
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 4px;
+  }
+  .cart-badge[data-count="0"]{display:none;}
+  .mobile-nav-toggle{display:none;}
+  .whatsapp-nav-btn{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+    padding:10px 16px;
+    border-radius:999px;
+    transition:background .2s ease;
+  }
+  .whatsapp-nav-btn:hover{background:#1FB958;}
+  .whatsapp-nav-btn .wa-dot{
+    font-size:8px;
+    animation:wa-pulse 2s ease-in-out infinite;
+  }
+  @keyframes wa-pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.4;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:88px 0 96px;
+  }
+  .hero-inner{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(38px,4.4vw,58px);
+    line-height:1.08;
+    max-width:14ch;
+  }
+  .hero p{
+    margin:24px 0 32px;
+    max-width:44ch;
+    font-size:18px;
+    color:var(--plum-soft);
+  }
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--wine);
+    color:var(--ivory);
+    border:none;
+    padding:15px 30px;
+    border-radius:999px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .2s ease, transform .15s ease;
+    text-decoration:none;
+  }
+  .cta:hover{background:#4a1428; transform:translateY(-1px);}
+  .hero-art{
+    background:var(--paper);
+    border-radius:28px;
+    padding:36px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+  }
+
+  /* ---------- How it works ---------- */
+  .steps{
+    padding:64px 0 96px;
+    border-top:1px solid var(--line);
+  }
+  .steps h2{
+    font-size:30px;
+    margin-bottom:40px;
+  }
+  .steps-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+  .step{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px 26px;
+  }
+  .step .num{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:34px;
+    color:var(--gold);
+    display:block;
+    margin-bottom:10px;
+  }
+  .step h3{
+    font-size:19px;
+    margin-bottom:8px;
+  }
+  .step p{
+    margin:0;
+    color:var(--plum-soft);
+    font-size:15px;
+  }
+
+  /* ---------- Builder ---------- */
+  .builder{
+    padding:20px 0 110px;
+  }
+  .builder-head{
+    max-width:56ch;
+    margin-bottom:40px;
+  }
+  .builder-head h2{font-size:30px;margin-bottom:12px;}
+  .builder-head p{color:var(--plum-soft);margin:0;}
+  .builder-grid{
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:48px;
+    align-items:flex-start;
+  }
+  .preview-col{
+    position:sticky;
+    top:96px;
+  }
+  .preview-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:28px;
+    box-shadow:var(--shadow);
+  }
+  .preview-stage{
+    background:linear-gradient(180deg,var(--ivory-deep),var(--ivory));
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:20px;
+  }
+  .price-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:18px;
+    margin-bottom:18px;
+  }
+  .price-row .label{
+    font-size:14px;
+    color:var(--plum-soft);
+  }
+  .price-row .amount{
+    font-family:'Fraunces',serif;
+    font-size:28px;
+    font-weight:600;
+    color:var(--wine);
+  }
+  .add-btn{
+    width:100%;
+    background:var(--plum);
+    color:var(--ivory);
+    border:none;
+    padding:16px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .add-btn:hover{background:#2c1529;}
+
+  fieldset{
+    border:none;
+    margin:0 0 30px;
+    padding:0;
+  }
+  legend{
+    font-family:'Fraunces',serif;
+    font-size:17px;
+    color:var(--plum);
+    margin-bottom:14px;
+    font-weight:600;
+  }
+  .option-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:10px;
+  }
+  .option-card{
+    position:relative;
+  }
+  .option-card input{
+    position:absolute;
+    opacity:0;
+    width:100%;height:100%;
+    margin:0;
+    cursor:pointer;
+  }
+  .option-card label{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    border:1.5px solid var(--line);
+    border-radius:12px;
+    padding:14px 14px;
+    background:var(--paper);
+    cursor:pointer;
+    transition:border-color .18s ease, background .18s ease;
+    font-size:14px;
+  }
+  .option-card label .opt-name{font-weight:600;color:var(--plum);}
+  .option-card label .opt-meta{font-size:12.5px;color:var(--plum-soft);}
+  .option-card input:checked + label{
+    border-color:var(--wine);
+    background:#FBEEF0;
+  }
+  .option-card input:focus-visible + label{
+    outline:3px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  .swatch-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .swatch{position:relative;}
+  .swatch input{
+    position:absolute;
+    opacity:0;
+    width:100%;height:100%;
+    cursor:pointer;
+  }
+  .swatch label{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    font-size:12px;
+    color:var(--plum-soft);
+    width:64px;
+  }
+  .swatch-dot{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:2px solid var(--paper);
+    box-shadow:0 0 0 1.5px var(--line);
+    transition:box-shadow .18s ease, transform .18s ease;
+  }
+  .swatch input:checked + label .swatch-dot{
+    box-shadow:0 0 0 2.5px var(--wine);
+    transform:scale(1.08);
+  }
+  .swatch input:focus-visible + label .swatch-dot{
+    outline:3px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  textarea{
+    width:100%;
+    border:1.5px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+    font-family:inherit;
+    font-size:14px;
+    resize:vertical;
+    min-height:80px;
+    background:var(--paper);
+  }
+  label.field-label{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:var(--plum);
+    margin-bottom:8px;
+  }
+
+  /* ---------- Ready-made menu ---------- */
+  .menu-section{
+    padding:20px 0 100px;
+    border-top:1px solid var(--line);
+  }
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .menu-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px 24px;
+  }
+  .menu-icon{
+    font-size:28px;
+    margin-bottom:10px;
+  }
+  .menu-card h3{
+    font-size:18px;
+    margin-bottom:6px;
+  }
+  .menu-card p{
+    margin:0 0 14px;
+    font-size:14px;
+    color:var(--plum-soft);
+  }
+  .menu-price{
+    display:inline-block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--wine);
+  }
+  .menu-note{
+    margin-top:28px;
+    font-size:13px;
+    color:var(--plum-soft);
+  }
+  .menu-note a{color:var(--wine);}
+
+  /* ---------- Testimonials ---------- */
+  .testimonials{
+    padding:20px 0 100px;
+    border-top:1px solid var(--line);
+  }
+  .testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .testimonial-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    border-radius:14px;
+    padding:26px 24px;
+    margin:0;
+  }
+  .testimonial-card p{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:16.5px;
+    color:var(--plum);
+    line-height:1.5;
+    margin:0 0 14px;
+  }
+  .testimonial-card cite{
+    font-style:normal;
+    font-size:13px;
+    font-weight:600;
+    color:var(--plum-soft);
+  }
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(42,23,40,0.45);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:60;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;
+    top:0; right:0;
+    height:100%;
+    width:min(420px,92vw);
+    background:var(--ivory);
+    box-shadow:-20px 0 40px rgba(42,23,40,0.25);
+    transform:translateX(100%);
+    transition:transform .3s ease;
+    z-index:61;
+    display:flex;
+    flex-direction:column;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:24px 24px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .drawer-head h2{font-size:22px;}
+  .icon-btn{
+    background:none;border:none;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    color:var(--plum);
+    padding:6px;
+  }
+  .drawer-body{
+    flex:1;
+    overflow-y:auto;
+    padding:20px 24px;
+  }
+  .cart-empty{
+    color:var(--plum-soft);
+    text-align:center;
+    margin-top:40px;
+    font-size:14px;
+  }
+  .cart-item{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cart-item .ci-title{
+    font-weight:600;
+    color:var(--plum);
+    font-size:14.5px;
+    margin-bottom:4px;
+  }
+  .cart-item .ci-meta{
+    font-size:12.5px;
+    color:var(--plum-soft);
+    line-height:1.5;
+  }
+  .cart-item .ci-price{
+    font-weight:600;
+    color:var(--wine);
+    white-space:nowrap;
+  }
+  .remove-btn{
+    background:none;
+    border:none;
+    color:var(--plum-soft);
+    text-decoration:underline;
+    font-size:12.5px;
+    cursor:pointer;
+    padding:0;
+    margin-top:6px;
+  }
+  .drawer-foot{
+    padding:20px 24px 26px;
+    border-top:1px solid var(--line);
+  }
+  .subtotal-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:16px;
+    font-size:15px;
+  }
+  .subtotal-row .amount{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    color:var(--wine);
+    font-weight:600;
+  }
+
+  /* ---------- Modal ---------- */
+  .modal{
+    position:fixed;
+    inset:0;
+    z-index:70;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .modal.open{opacity:1;pointer-events:auto;}
+  .modal-panel{
+    background:var(--ivory);
+    border-radius:22px;
+    max-width:480px;
+    width:100%;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:32px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    transform:translateY(16px);
+    transition:transform .25s ease;
+  }
+  .modal.open .modal-panel{transform:translateY(0);}
+  .modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:22px;
+  }
+  .modal-head h2{font-size:24px;}
+  .form-row{margin-bottom:18px;}
+  input[type="text"], input[type="tel"], input[type="date"]{
+    width:100%;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:14.5px;
+    background:var(--paper);
+  }
+  .radio-inline{
+    display:flex;
+    gap:12px;
+  }
+  .radio-inline label{
+    flex:1;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:11px;
+    text-align:center;
+    font-size:14px;
+    cursor:pointer;
+    position:relative;
+    font-weight:500;
+    color:var(--plum-soft);
+  }
+  .radio-inline input{
+    position:absolute;opacity:0;
+  }
+  .radio-inline input:checked + label,
+  .radio-inline label:has(input:checked){}
+  .radio-inline .opt{position:relative;}
+  .radio-inline .opt input:checked ~ label{
+    border-color:var(--wine);
+    background:#FBEEF0;
+    color:var(--plum);
+  }
+  .hidden{display:none !important;}
+  .submit-btn{
+    width:100%;
+    background:var(--wine);
+    color:var(--ivory);
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:6px;
+  }
+  .submit-btn:hover{background:#4a1428;}
+
+  .confirm-box{
+    text-align:center;
+  }
+  .confirm-box .ref{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    color:var(--wine);
+    margin:14px 0 18px;
+  }
+  .confirm-summary{
+    text-align:left;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    font-size:13.5px;
+    color:var(--plum-soft);
+    line-height:1.7;
+    margin-bottom:20px;
+  }
+  .confirm-summary strong{color:var(--plum);}
+  .whatsapp-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#25D366;
+    color:#fff;
+    padding:13px 24px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:14.5px;
+  }
+  .pay-note{
+    font-size:13px;
+    color:var(--plum-soft);
+    margin:14px 0 22px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:48px 0 40px;
+    background:var(--ivory-deep);
+  }
+  .footer-columns{
+    display:grid;
+    grid-template-columns:1.1fr 1fr 1fr;
+    gap:36px;
+    align-items:start;
+  }
+  .footer-col{display:flex;flex-direction:column;gap:12px;}
+  .footer-tagline{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:20px;
+    color:var(--wine);
+    display:block;
+  }
+  .footer-heading{
+    font-size:15px;
+    margin-bottom:2px;
+  }
+  .footer-detail{
+    margin:0;
+    font-size:13.5px;
+    color:var(--plum-soft);
+  }
+  .footer-detail a{
+    text-decoration:none;
+    color:var(--plum);
+    font-weight:500;
+  }
+  .footer-map-note{font-size:12px;}
+  .footer-links{
+    display:flex;
+    gap:22px;
+  }
+  .footer-links a{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    color:var(--plum);
+  }
+  .footer-copy{
+    width:100%;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--plum-soft);
+    margin-top:36px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:920px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-art{order:-1;}
+    .steps-grid{grid-template-columns:1fr;}
+    .menu-grid{grid-template-columns:repeat(2,1fr);}
+    .testimonial-grid{grid-template-columns:1fr;}
+    .builder-grid{grid-template-columns:1fr;}
+    .preview-col{position:static;order:-1;}
+    nav{
+      position:fixed;
+      top:0; right:0;
+      height:100%;
+      width:min(300px,80vw);
+      background:var(--ivory);
+      flex-direction:column;
+      align-items:flex-start;
+      padding:90px 28px 28px;
+      transform:translateX(100%);
+      transition:transform .28s ease;
+      box-shadow:-14px 0 30px rgba(0,0,0,0.15);
+    }
+    nav.nav-open{transform:translateX(0);}
+    nav a{font-size:17px;}
+    .mobile-nav-toggle{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:44px;height:44px;
+      border:1px solid var(--line);
+      border-radius:50%;
+      background:var(--paper);
+      cursor:pointer;
+      font-size:18px;
+    }
+    .header-actions{display:flex;align-items:center;gap:10px;}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 20px;}
+    .hero{padding:56px 0 64px;}
+    .topbar-hours{display:none;}
+    .whatsapp-nav-btn .wa-text{display:none;}
+    .whatsapp-nav-btn{padding:10px 12px;}
+    .menu-grid{grid-template-columns:1fr;}
+    .footer-columns{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="https://wa.me/255700000000" target="_blank" rel="noopener" class="topbar-phone">+255 700 000 000</a>
+    <span class="topbar-hours">Mon–Sat: 9AM – 7PM · Sun: Closed</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap header-inner">
+    <a href="#top" class="logo" aria-label="MZUNGU Cakes home">
+      <span class="script">Mzungu</span>
+      <span class="caps">CAKES</span>
+    </a>
+    <nav id="mainNav" aria-label="Primary">
+      <a href="#builder">Build a Cake</a>
+      <a href="#menu">Ready-made Treats</a>
+      <a href="#how">How it works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="whatsapp-nav-btn" href="https://wa.me/255700000000" target="_blank" rel="noopener" aria-label="Message us on WhatsApp">
+        <span class="wa-dot" aria-hidden="true">●</span><span class="wa-text">Message us</span>
+      </a>
+      <button class="cart-btn" id="cartOpenBtn" aria-label="Open cart">
+        🛒<span class="cart-badge" id="cartBadge" data-count="0">0</span>
+      </button>
+      <button class="mobile-nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <h1>A cake exactly as you pictured it.</h1>
+        <p>Design your shape, flavour and icing, watch it come together, and pick it up in Dar es Salaam — no deposit, pay when you collect.</p>
+        <a href="#builder" class="cta">Start designing</a>
+      </div>
+      <div class="hero-art">
+        <div id="heroCake"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps" id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <span class="num">i.</span>
+          <h3>Design</h3>
+          <p>Choose your occasion, shape, flavour and icing in the builder below, and watch your cake take shape.</p>
+        </div>
+        <div class="step">
+          <span class="num">ii.</span>
+          <h3>We confirm</h3>
+          <p>Send your order and we'll message you on WhatsApp to confirm the details and your pickup time.</p>
+        </div>
+        <div class="step">
+          <span class="num">iii.</span>
+          <h3>Pay &amp; enjoy</h3>
+          <p>Pay by cash or mobile money when your cake is ready — no deposit needed up front.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section class="builder" id="builder">
+    <div class="wrap">
+      <div class="builder-head">
+        <h2>Build your cake</h2>
+        <p>Every choice updates your cake and price live, so you can see exactly what you're ordering before you send it.</p>
+      </div>
+
+      <div class="builder-grid">
+        <!-- FORM -->
+        <form id="builderForm">
+          <fieldset>
+            <legend>Occasion</legend>
+            <div class="option-grid" id="typeOptions"></div>
+          </fieldset>
+
+          <fieldset id="shapeFieldset">
+            <legend>Shape</legend>
+            <div class="option-grid" id="shapeOptions"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Flavour</legend>
+            <div class="option-grid" id="flavourOptions"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Icing colour</legend>
+            <div class="swatch-grid" id="icingOptions"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend id="sizeLegend">Size</legend>
+            <div class="option-grid" id="sizeOptions"></div>
+          </fieldset>
+
+          <fieldset>
+            <label class="field-label" for="notes">Notes for the baker (optional)</label>
+            <textarea id="notes" name="notes" placeholder="e.g. write 'Happy Birthday Amina' on top"></textarea>
+          </fieldset>
+        </form>
+
+        <!-- PREVIEW -->
+        <div class="preview-col">
+          <div class="preview-card">
+            <div class="preview-stage">
+              <div id="cakePreview"></div>
+            </div>
+            <div class="price-row">
+              <span class="label">Estimated price</span>
+              <span class="amount" id="priceDisplay">TZS 0</span>
+            </div>
+            <button type="button" class="add-btn" id="addToCartBtn">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- READY-MADE TREATS -->
+  <section class="menu-section" id="menu">
+    <div class="wrap">
+      <div class="builder-head">
+        <h2>Also on the menu</h2>
+        <p>Not every order needs the full builder — these are ready to request as-is, priced per standard size.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🧁</div>
+          <h3>Cupcakes</h3>
+          <p>Boxed by the dozen, mixed or single flavour.</p>
+          <span class="menu-price">from TZS 28,000 / dozen</span>
+        </div>
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🍪</div>
+          <h3>Cookies</h3>
+          <p>Classic and decorated cookies, boxed for gifting or sharing.</p>
+          <span class="menu-price">from TZS 12,000 / dozen</span>
+        </div>
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🍫</div>
+          <h3>Brownies</h3>
+          <p>Fudgy squares, plain or with nuts and chocolate chunks.</p>
+          <span class="menu-price">from TZS 15,000 / tray</span>
+        </div>
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🍞</div>
+          <h3>Loaf Cakes</h3>
+          <p>Banana, marble, or lemon loaf — great for everyday treats.</p>
+          <span class="menu-price">from TZS 18,000 each</span>
+        </div>
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🥤</div>
+          <h3>Drinks</h3>
+          <p>Fresh juices and milkshakes to go alongside your order.</p>
+          <span class="menu-price">from TZS 5,000</span>
+        </div>
+        <div class="menu-card">
+          <div class="menu-icon" aria-hidden="true">🎁</div>
+          <h3>Special Packages</h3>
+          <p>Bundled treats for offices, events, and celebrations.</p>
+          <span class="menu-price">ask us for a quote</span>
+        </div>
+      </div>
+      <p class="menu-note">Prices shown are placeholders — request these directly on <a href="https://wa.me/255700000000" target="_blank" rel="noopener">WhatsApp</a>.</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="wrap">
+      <div class="builder-head">
+        <h2>What customers say</h2>
+        <p>A few words from people who've picked up a MZUNGU cake.</p>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote class="testimonial-card">
+          <p>“The cake looked exactly like the preview I designed — even the icing colour matched perfectly.”</p>
+          <cite>— Amina H.</cite>
+        </blockquote>
+        <blockquote class="testimonial-card">
+          <p>“Ordering on WhatsApp was so easy, and the price was clear from the start. No surprises at pickup.”</p>
+          <cite>— Joseph M.</cite>
+        </blockquote>
+        <blockquote class="testimonial-card">
+          <p>“Booked a wedding cake with three tiers — it was moist, beautifully finished, and on time.”</p>
+          <cite>— Fatma S.</cite>
+        </blockquote>
+      </div>
+      <p class="menu-note">Placeholder quotes — swap in real customer feedback once available.</p>
+    </div>
+  </section>
+</main>
+
+<!-- CART OVERLAY + DRAWER -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h2>Your cart</h2>
+    <button class="icon-btn" id="cartCloseBtn" aria-label="Close cart">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody">
+    <p class="cart-empty">Your cart is empty — build a cake to get started.</p>
+  </div>
+  <div class="drawer-foot">
+    <div class="subtotal-row">
+      <span>Subtotal</span>
+      <span class="amount" id="subtotalDisplay">TZS 0</span>
+    </div>
+    <button type="button" class="submit-btn" id="checkoutBtn">Checkout</button>
+  </div>
+</aside>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <h2 id="modalTitle">Complete your order</h2>
+      <button class="icon-btn" id="modalCloseBtn" aria-label="Close">✕</button>
+    </div>
+
+    <form id="checkoutForm">
+      <div class="form-row">
+        <label class="field-label" for="custName">Your name</label>
+        <input type="text" id="custName" name="custName" required>
+      </div>
+      <div class="form-row">
+        <label class="field-label" for="custPhone">Phone number</label>
+        <input type="tel" id="custPhone" name="custPhone" placeholder="e.g. 07XX XXX XXX" required>
+      </div>
+      <div class="form-row">
+        <span class="field-label" id="fulfilLabel">Pickup or delivery?</span>
+        <div class="radio-inline" role="radiogroup" aria-labelledby="fulfilLabel">
+          <span class="opt">
+            <input type="radio" id="fulfilPickup" name="fulfil" value="pickup" checked>
+            <label for="fulfilPickup">Pickup</label>
+          </span>
+          <span class="opt">
+            <input type="radio" id="fulfilDelivery" name="fulfil" value="delivery">
+            <label for="fulfilDelivery">Delivery</label>
+          </span>
+        </div>
+      </div>
+      <div class="form-row hidden" id="addressRow">
+        <label class="field-label" for="custAddress">Delivery address</label>
+        <input type="text" id="custAddress" name="custAddress" placeholder="Street, area, landmark">
+      </div>
+      <div class="form-row">
+        <label class="field-label" for="dateNeeded">Date needed</label>
+        <input type="date" id="dateNeeded" name="dateNeeded" required>
+      </div>
+      <div class="form-row">
+        <label class="field-label" for="orderNotes">Anything else we should know?</label>
+        <textarea id="orderNotes" name="orderNotes" placeholder="Optional"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Place order</button>
+    </form>
+
+    <div class="confirm-box hidden" id="confirmBox">
+      <h2>Order received</h2>
+      <p class="ref" id="orderRef">MZ-0000</p>
+      <div class="confirm-summary" id="confirmSummary"></div>
+      <p class="pay-note">Pay by cash or mobile money on pickup or delivery — no deposit needed.</p>
+      <a href="#" class="whatsapp-link" id="whatsappConfirmLink" target="_blank" rel="noopener">Confirm on WhatsApp →</a>
+    </div>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <span class="footer-tagline">Baked with love, picked up with pride.</span>
+        <div class="footer-links">
+          <a href="https://wa.me/255700000000" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://instagram.com/mzungucakes" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">Visit or order</h3>
+        <p class="footer-detail">Placeholder pickup address, Dar es Salaam, Tanzania</p>
+        <p class="footer-detail">Mon–Sat: 9AM – 7PM · Sun: Closed</p>
+        <p class="footer-detail"><a href="https://wa.me/255700000000" target="_blank" rel="noopener">+255 700 000 000</a></p>
+      </div>
+      <div class="footer-col">
+        <h3 class="footer-heading">Find us</h3>
+        <div class="footer-map">
+          <iframe
+            src="https://www.google.com/maps?q=Dar+es+Salaam,Tanzania&output=embed"
+            width="100%" height="140" style="border:0;border-radius:12px;"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Map placeholder — update with real pickup location"></iframe>
+        </div>
+        <p class="footer-detail footer-map-note">Placeholder map — update with your real pickup location.</p>
+      </div>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> MZUNGU Cakes, Dar es Salaam. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ---------------- Data ---------------- */
+  var TYPES = [
+    { id:'birthday', name:'Birthday', price:40000, meta:'from TZS 40,000' },
+    { id:'wedding',  name:'Wedding',  price:150000, meta:'from TZS 150,000' },
+    { id:'cupcakes', name:'Cupcakes', price:28000, meta:'from TZS 28,000 / dozen' },
+    { id:'custom',   name:'Custom / Other', price:60000, meta:'from TZS 60,000' }
+  ];
+  var SHAPES = [
+    { id:'round',  name:'Round',  addon:0 },
+    { id:'square', name:'Square', addon:0 },
+    { id:'heart',  name:'Heart',  addon:5000 },
+    { id:'tiered', name:'Tiered', addon:35000 }
+  ];
+  var FLAVOURS = [
+    { id:'vanilla',    name:'Vanilla',     addon:0,    color:'#F3E3B8' },
+    { id:'chocolate',  name:'Chocolate',   addon:0,    color:'#6B4226' },
+    { id:'redvelvet',  name:'Red Velvet',  addon:3000, color:'#8C1F2C' },
+    { id:'lemon',      name:'Lemon',       addon:0,    color:'#F2D34B' },
+    { id:'marble',     name:'Fruit Marble',addon:2000, color:'#D97FA3' }
+  ];
+  var ICINGS = [
+    { id:'blush',    name:'Blush Pink', color:'#E8B7C0' },
+    { id:'ivory',    name:'Ivory',      color:'#F6EFE3' },
+    { id:'gold',     name:'Gold',       color:'#C9A227' },
+    { id:'lavender', name:'Lavender',   color:'#C3B2D6' },
+    { id:'mint',     name:'Mint',       color:'#B7D9C4' },
+    { id:'wine',     name:'Deep Wine',  color:'#5C1A32' }
+  ];
+  var SIZES = [
+    { id:'small',  name:'Small',  mult:1 },
+    { id:'medium', name:'Medium', mult:1.7 },
+    { id:'large',  name:'Large',  mult:2.6 }
+  ];
+  var CUPCAKE_SIZES = [
+    { id:'one-dozen',  name:'1 dozen',  mult:1 },
+    { id:'two-dozen',  name:'2 dozen',  mult:2 },
+    { id:'three-dozen',name:'3 dozen',  mult:3 }
+  ];
+
+  var state = {
+    type:'birthday',
+    shape:'round',
+    flavour:'vanilla',
+    icing:'blush',
+    size:'medium'
+  };
+  var cart = [];
+  var orderCounter = 214; // starting reference sequence
+
+  /* ---------------- Render option groups ---------------- */
+  function renderOptionGroup(container, items, groupName, selectedId, onPick){
+    container.innerHTML = '';
+    items.forEach(function(item){
+      var wrap = document.createElement('div');
+      wrap.className = 'option-card';
+      var inputId = groupName + '-' + item.id;
+      var meta = item.meta ? item.meta : (item.addon ? ('+TZS ' + item.addon.toLocaleString()) : 'no extra charge');
+      wrap.innerHTML =
+        '<input type="radio" name="'+groupName+'" id="'+inputId+'" value="'+item.id+'" '+(item.id===selectedId?'checked':'')+'>' +
+        '<label for="'+inputId+'"><span class="opt-name">'+item.name+'</span><span class="opt-meta">'+meta+'</span></label>';
+      container.appendChild(wrap);
+      wrap.querySelector('input').addEventListener('change', function(){ onPick(item.id); });
+    });
+  }
+
+  function renderSwatches(container, items, selectedId, onPick){
+    container.innerHTML = '';
+    items.forEach(function(item){
+      var wrap = document.createElement('div');
+      wrap.className = 'swatch';
+      var inputId = 'icing-' + item.id;
+      wrap.innerHTML =
+        '<input type="radio" name="icing" id="'+inputId+'" value="'+item.id+'" '+(item.id===selectedId?'checked':'')+'>' +
+        '<label for="'+inputId+'"><span class="swatch-dot" style="background:'+item.color+'"></span>'+item.name+'</label>';
+      container.appendChild(wrap);
+      wrap.querySelector('input').addEventListener('change', function(){ onPick(item.id); });
+    });
+  }
+
+  function currentSizeList(){
+    return state.type === 'cupcakes' ? CUPCAKE_SIZES : SIZES;
+  }
+
+  function findById(list, id){
+    for (var i=0;i<list.length;i++){ if (list[i].id===id) return list[i]; }
+    return list[0];
+  }
+
+  /* ---------------- Pricing ---------------- */
+  function computePrice(){
+    var type = findById(TYPES, state.type);
+    var flavour = findById(FLAVOURS, state.flavour);
+    var sizeList = currentSizeList();
+    var size = findById(sizeList, state.size);
+    var base = type.price + flavour.addon;
+    if (state.type !== 'cupcakes'){
+      var shape = findById(SHAPES, state.shape);
+      base += shape.addon;
+    }
+    var total = Math.round(base * size.mult);
+    return total;
+  }
+
+  function formatTZS(n){
+    return 'TZS ' + n.toLocaleString('en-US');
+  }
+
+  /* ---------------- SVG cake preview ---------------- */
+  function decorationMarkup(type, cx, topY, iconColor){
+    if (type === 'birthday'){
+      var candles = '';
+      var positions = [-38,-13,13,38];
+      positions.forEach(function(dx){
+        candles += '<rect x="'+(cx+dx-3)+'" y="'+(topY-26)+'" width="6" height="26" rx="2" fill="#F6EFE3" stroke="#D9BD82" stroke-width="1"/>' +
+                   '<ellipse cx="'+(cx+dx)+'" cy="'+(topY-32)+'" rx="4" ry="6" fill="#E8A33D"/>';
+      });
+      return candles;
+    }
+    if (type === 'wedding'){
+      var pearls = '';
+      for (var i=-3;i<=3;i++){
+        pearls += '<circle cx="'+(cx+i*14)+'" cy="'+(topY+6)+'" r="4" fill="#F6EFE3" stroke="#D9BD82" stroke-width="0.6"/>';
+      }
+      pearls += '<circle cx="'+cx+'" cy="'+(topY-20)+'" r="9" fill="#E8B7C0"/>' +
+                '<circle cx="'+(cx-13)+'" cy="'+(topY-12)+'" r="7" fill="#F1CDD6"/>' +
+                '<circle cx="'+(cx+13)+'" cy="'+(topY-12)+'" r="7" fill="#F1CDD6"/>';
+      return pearls;
+    }
+    if (type === 'custom'){
+      var sparkles = '';
+      var sp = [[-46,-20],[42,-14],[-20,-38],[26,-34],[0,-48]];
+      sp.forEach(function(p){
+        var sx=cx+p[0], sy=topY+p[1];
+        sparkles += '<path d="M'+sx+' '+(sy-8)+' L'+(sx+2.4)+' '+(sy-2.4)+' L'+(sx+8)+' '+sy+' L'+(sx+2.4)+' '+(sy+2.4)+' L'+sx+' '+(sy+8)+' L'+(sx-2.4)+' '+(sy+2.4)+' L'+(sx-8)+' '+sy+' L'+(sx-2.4)+' '+(sy-2.4)+' Z" fill="'+iconColor+'"/>';
+      });
+      return sparkles;
+    }
+    // cupcakes / fallback: little cherry
+    return '<circle cx="'+cx+'" cy="'+(topY-6)+'" r="7" fill="#8C1F2C"/><path d="M'+cx+' '+(topY-13)+' Q '+(cx+10)+' '+(topY-26)+' '+(cx+16)+' '+(topY-22)+'" stroke="#4C7A4C" stroke-width="2" fill="none" stroke-linecap="round"/>';
+  }
+
+  function crumbLine(cx, y, half, flavourColor){
+    return '<rect x="'+(cx-half)+'" y="'+(y-4)+'" width="'+(half*2)+'" height="6" fill="'+flavourColor+'" opacity="0.9"/>';
+  }
+
+  function buildCakeSVG(opts){
+    var icing = findById(ICINGS, opts.icing).color;
+    var flavour = findById(FLAVOURS, opts.flavour).color;
+    var W=320,H=300, cx=160;
+    var body = '';
+    var topY;
+
+    if (opts.type === 'cupcakes'){
+      topY = 150;
+      var cups = [-70,0,70];
+      cups.forEach(function(dx){
+        var x=cx+dx;
+        body += '<path d="M'+(x-32)+' 190 L'+(x-24)+' 240 Q '+x+' 250 '+(x+24)+' 240 L'+(x+32)+' 190 Z" fill="#E7C9A1"/>';
+        body += '<path d="M'+(x-34)+' 195 Q '+x+' 150 '+(x+34)+' 195 Q '+x+' 200 '+x+' 205 Q '+x+' 200 '+(x-34)+' 195 Z" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+        body += crumbLine(x,190,20,flavour);
+        body += '<circle cx="'+x+'" cy="150" r="7" fill="#8C1F2C"/>';
+      });
+      return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Preview of cupcakes with '+opts.icing+' icing">'+body+'</svg>';
+    }
+
+    if (opts.shape === 'tiered'){
+      topY = 90;
+      body += '<ellipse cx="'+cx+'" cy="230" rx="98" ry="16" fill="rgba(61,31,58,0.08)"/>';
+      body += '<rect x="'+(cx-95)+'" y="188" width="190" height="46" rx="8" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,188,95,flavour);
+      body += '<rect x="'+(cx-65)+'" y="140" width="130" height="42" rx="8" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,140,65,flavour);
+      body += '<rect x="'+(cx-38)+'" y="98" width="76" height="38" rx="8" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,98,38,flavour);
+    } else if (opts.shape === 'square'){
+      topY = 118;
+      body += '<ellipse cx="'+cx+'" cy="230" rx="98" ry="16" fill="rgba(61,31,58,0.08)"/>';
+      body += '<rect x="'+(cx-88)+'" y="118" width="176" height="112" rx="10" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,118,88,flavour);
+    } else if (opts.shape === 'heart'){
+      topY = 108;
+      body += '<ellipse cx="'+cx+'" cy="230" rx="98" ry="16" fill="rgba(61,31,58,0.08)"/>';
+      body += '<path d="M'+cx+' 232 L'+(cx-86)+' 156 Q'+(cx-108)+' 104 '+(cx-58)+' 100 Q'+cx+' 98 '+cx+' 132 Q'+cx+' 98 '+(cx+58)+' 100 Q'+(cx+108)+' 104 '+(cx+86)+' 156 Z" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,150,60,flavour);
+      topY = 100;
+    } else {
+      topY = 108;
+      body += '<ellipse cx="'+cx+'" cy="230" rx="98" ry="16" fill="rgba(61,31,58,0.08)"/>';
+      body += '<path d="M'+(cx-90)+' 230 L'+(cx-90)+' 140 Q'+cx+' 118 '+(cx+90)+' 140 L'+(cx+90)+' 230 Q'+cx+' 250 '+(cx-90)+' 230 Z" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += '<ellipse cx="'+cx+'" cy="140" rx="90" ry="18" fill="'+icing+'" stroke="rgba(61,31,58,0.15)" stroke-width="1"/>';
+      body += crumbLine(cx,150,84,flavour);
+    }
+
+    body += decorationMarkup(opts.type, cx, topY, findById(ICINGS,opts.icing).color === icing ? '#B8923F' : '#B8923F');
+    return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Preview of a '+opts.shape+' '+opts.type+' cake with '+opts.icing+' icing and '+opts.flavour+' flavour">'+body+'</svg>';
+  }
+
+  function renderPreview(){
+    document.getElementById('cakePreview').innerHTML = buildCakeSVG(state);
+    document.getElementById('priceDisplay').textContent = formatTZS(computePrice());
+    var shapeFieldset = document.getElementById('shapeFieldset');
+    shapeFieldset.style.display = (state.type === 'cupcakes') ? 'none' : '';
+    document.getElementById('sizeLegend').textContent = (state.type === 'cupcakes') ? 'How many dozen' : 'Size';
+  }
+
+  function renderAllOptions(){
+    renderOptionGroup(document.getElementById('typeOptions'), TYPES, 'type', state.type, function(id){
+      state.type = id;
+      if (state.type === 'cupcakes' && !CUPCAKE_SIZES.some(function(s){return s.id===state.size;})){
+        state.size = CUPCAKE_SIZES[0].id;
+      }
+      if (state.type !== 'cupcakes' && !SIZES.some(function(s){return s.id===state.size;})){
+        state.size = SIZES[1].id;
+      }
+      renderOptionGroup(document.getElementById('sizeOptions'), currentSizeList(), 'size', state.size, function(id){ state.size=id; renderPreview(); });
+      renderPreview();
+    });
+    renderOptionGroup(document.getElementById('shapeOptions'), SHAPES, 'shape', state.shape, function(id){ state.shape=id; renderPreview(); });
+    renderOptionGroup(document.getElementById('flavourOptions'), FLAVOURS, 'flavour', state.flavour, function(id){ state.flavour=id; renderPreview(); });
+    renderSwatches(document.getElementById('icingOptions'), ICINGS, state.icing, function(id){ state.icing=id; renderPreview(); });
+    renderOptionGroup(document.getElementById('sizeOptions'), currentSizeList(), 'size', state.size, function(id){ state.size=id; renderPreview(); });
+  }
+
+  renderAllOptions();
+  renderPreview();
+
+  // Hero decorative cake (static, elegant tiered example)
+  document.getElementById('heroCake').innerHTML = buildCakeSVG({type:'wedding', shape:'tiered', flavour:'vanilla', icing:'ivory'});
+
+  /* ---------------- Add to cart ---------------- */
+  function describeSelection(){
+    var type = findById(TYPES, state.type);
+    var flavour = findById(FLAVOURS, state.flavour);
+    var icing = findById(ICINGS, state.icing);
+    var size = findById(currentSizeList(), state.size);
+    var parts = [type.name];
+    if (state.type !== 'cupcakes'){
+      var shape = findById(SHAPES, state.shape);
+      parts.push(shape.name + ' shape');
+    }
+    parts.push(flavour.name);
+    parts.push(icing.name + ' icing');
+    parts.push(size.name);
+    return parts;
+  }
+
+  document.getElementById('addToCartBtn').addEventListener('click', function(){
+    var notes = document.getElementById('notes').value.trim();
+    var item = {
+      id: Date.now(),
+      title: findById(TYPES, state.type).name + ' Cake',
+      meta: describeSelection().slice(1).join(' · '),
+      notes: notes,
+      price: computePrice()
+    };
+    cart.push(item);
+    document.getElementById('notes').value = '';
+    renderCart();
+    openCart();
+  });
+
+  /* ---------------- Cart ---------------- */
+  function renderCart(){
+    var body = document.getElementById('cartBody');
+    var badge = document.getElementById('cartBadge');
+    badge.textContent = cart.length;
+    badge.setAttribute('data-count', cart.length);
+
+    if (cart.length === 0){
+      body.innerHTML = '<p class="cart-empty">Your cart is empty — build a cake to get started.</p>';
+    } else {
+      body.innerHTML = '';
+      cart.forEach(function(item){
+        var row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML =
+          '<div>' +
+            '<div class="ci-title">'+item.title+'</div>' +
+            '<div class="ci-meta">'+item.meta+(item.notes ? ' · "'+item.notes+'"' : '')+'</div>' +
+            '<button class="remove-btn" data-id="'+item.id+'">Remove</button>' +
+          '</div>' +
+          '<div class="ci-price">'+formatTZS(item.price)+'</div>';
+        body.appendChild(row);
+      });
+      body.querySelectorAll('.remove-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var id = Number(btn.getAttribute('data-id'));
+          cart = cart.filter(function(i){ return i.id !== id; });
+          renderCart();
+        });
+      });
+    }
+
+    var subtotal = cart.reduce(function(sum,i){ return sum + i.price; }, 0);
+    document.getElementById('subtotalDisplay').textContent = formatTZS(subtotal);
+  }
+  renderCart();
+
+  var overlay = document.getElementById('overlay');
+  var drawer = document.getElementById('cartDrawer');
+  function openCart(){ overlay.classList.add('open'); drawer.classList.add('open'); }
+  function closeCart(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
+  document.getElementById('cartOpenBtn').addEventListener('click', openCart);
+  document.getElementById('cartCloseBtn').addEventListener('click', closeCart);
+  overlay.addEventListener('click', function(){ closeCart(); closeModal(); });
+
+  /* ---------------- Mobile nav ---------------- */
+  var navToggle = document.getElementById('navToggle');
+  var mainNav = document.getElementById('mainNav');
+  navToggle.addEventListener('click', function(){
+    var isOpen = mainNav.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+    navToggle.textContent = isOpen ? '✕' : '☰';
+  });
+  mainNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mainNav.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', false);
+      navToggle.textContent = '☰';
+    });
+  });
+
+  /* ---------------- Checkout modal ---------------- */
+  var modal = document.getElementById('checkoutModal');
+  var checkoutForm = document.getElementById('checkoutForm');
+  var confirmBox = document.getElementById('confirmBox');
+  var dateNeeded = document.getElementById('dateNeeded');
+
+  // Orders cannot be requested for a date that has already passed.
+  var today = new Date();
+  var todayISO = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  dateNeeded.min = todayISO;
+
+  function openModal(){
+    if (cart.length === 0){ return; }
+    checkoutForm.classList.remove('hidden');
+    confirmBox.classList.add('hidden');
+    document.getElementById('modalTitle').textContent = 'Complete your order';
+    modal.classList.add('open');
+    closeCart();
+  }
+  function closeModal(){ modal.classList.remove('open'); }
+
+  document.getElementById('checkoutBtn').addEventListener('click', openModal);
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+
+  document.querySelectorAll('input[name="fulfil"]').forEach(function(radio){
+    radio.addEventListener('change', function(){
+      var addressRow = document.getElementById('addressRow');
+      var addressInput = document.getElementById('custAddress');
+      if (radio.value === 'delivery' && radio.checked){
+        addressRow.classList.remove('hidden');
+        addressInput.required = true;
+      } else if (radio.checked){
+        addressRow.classList.add('hidden');
+        addressInput.required = false;
+      }
+    });
+  });
+
+  checkoutForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    orderCounter += 1;
+    var ref = 'MZ-' + orderCounter;
+    var name = document.getElementById('custName').value.trim();
+    var phone = document.getElementById('custPhone').value.trim();
+    var fulfil = document.querySelector('input[name="fulfil"]:checked').value;
+    var address = document.getElementById('custAddress').value.trim();
+    var date = document.getElementById('dateNeeded').value;
+    var extraNotes = document.getElementById('orderNotes').value.trim();
+
+    var itemLines = cart.map(function(i){
+      return i.title + ' — ' + i.meta + (i.notes ? ' ("'+i.notes+'")' : '') + ' — ' + formatTZS(i.price);
+    });
+    var subtotal = cart.reduce(function(sum,i){ return sum + i.price; }, 0);
+
+    var summaryHTML =
+      '<strong>Name:</strong> ' + escapeHTML(name) + '<br>' +
+      '<strong>Phone:</strong> ' + escapeHTML(phone) + '<br>' +
+      '<strong>' + (fulfil === 'delivery' ? 'Delivery to' : 'Pickup') + ':</strong> ' + (fulfil === 'delivery' ? escapeHTML(address) : 'MZUNGU Cakes counter') + '<br>' +
+      '<strong>Date needed:</strong> ' + escapeHTML(date) + '<br><br>' +
+      itemLines.map(escapeHTML).join('<br>') +
+      '<br><br><strong>Subtotal:</strong> ' + formatTZS(subtotal) +
+      (extraNotes ? ('<br><br><strong>Notes:</strong> ' + escapeHTML(extraNotes)) : '');
+
+    document.getElementById('orderRef').textContent = ref;
+    document.getElementById('confirmSummary').innerHTML = summaryHTML;
+
+    var waText = 'Hi MZUNGU Cakes! I just placed order ' + ref + ' (' + itemLines.join(' | ') + ') for ' + date + '. My name is ' + name + '.';
+    document.getElementById('whatsappConfirmLink').href = 'https://wa.me/255700000000?text=' + encodeURIComponent(waText);
+
+    checkoutForm.classList.add('hidden');
+    confirmBox.classList.remove('hidden');
+    document.getElementById('modalTitle').textContent = 'Thank you!';
+
+    cart = [];
+    renderCart();
+  });
+
+  function escapeHTML(str){
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){ closeCart(); closeModal(); }
+  });
+})();
+</script>
+</body>
+</html>
