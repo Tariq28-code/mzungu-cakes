@@ -518,6 +518,24 @@
     transition:background .2s ease, color .2s ease;
   }
   .menu-order:hover{background:var(--wine);color:var(--ivory);}
+  .menu-select-label{
+    display:block;
+    margin-top:16px;
+    margin-bottom:6px;
+    color:var(--plum);
+    font-size:12.5px;
+    font-weight:600;
+  }
+  .menu-select{
+    width:100%;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--paper);
+    color:var(--plum);
+    font:inherit;
+    font-size:13px;
+  }
   .menu-note{
     margin-top:28px;
     font-size:13px;
@@ -1082,7 +1100,15 @@
             <h3>Drinks</h3>
             <p>Fresh juices and milkshakes to go alongside your order.</p>
             <span class="menu-price">from TZS 5,000</span>
-            <a class="menu-order" href="https://wa.me/255700000000?text=Hi%20MZUNGU%20Cakes%2C%20I%27d%20like%20to%20order%20drinks.%20Please%20share%20today%27s%20options%20and%20availability." target="_blank" rel="noopener">Order drinks</a>
+            <label class="menu-select-label" for="drinkType">Choose a drink category</label>
+            <select class="menu-select" id="drinkType">
+              <option value="Fresh juice">Fresh juice</option>
+              <option value="Milkshake">Milkshake</option>
+              <option value="Smoothie">Smoothie</option>
+              <option value="Iced coffee">Iced coffee</option>
+              <option value="Other drink">Other drink</option>
+            </select>
+            <a class="menu-order" id="drinkOrderBtn" href="https://wa.me/255700000000?text=Hi%20MZUNGU%20Cakes%2C%20I%27d%20like%20to%20order%20a%20Fresh%20juice.%20Please%20share%20today%27s%20options%20and%20availability." target="_blank" rel="noopener">Order selected drink</a>
           </div>
         </div>
         <div class="menu-card">
@@ -1587,6 +1613,15 @@
       navToggle.textContent = '☰';
     });
   });
+
+  var drinkType = document.getElementById('drinkType');
+  var drinkOrderBtn = document.getElementById('drinkOrderBtn');
+  function updateDrinkOrderLink(){
+    var drink = drinkType.value;
+    var message = 'Hi MZUNGU Cakes, I\'d like to order a ' + drink + '. Please share today\'s flavours, sizes, prices and availability.';
+    drinkOrderBtn.href = 'https://wa.me/255700000000?text=' + encodeURIComponent(message);
+  }
+  drinkType.addEventListener('change', updateDrinkOrderLink);
 
   /* ---------------- Checkout modal ---------------- */
   var modal = document.getElementById('checkoutModal');
