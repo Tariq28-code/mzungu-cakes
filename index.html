@@ -1706,7 +1706,16 @@
     placeOrderButton.disabled = true;
     placeOrderButton.textContent = 'Saving order...';
 
-    db.collection('orders').add(orderData).then(function(){
+    var saveRequest = db.collection('orders').add(orderData);
+    var saveTimeout = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        var timeoutError = new Error('Firebase did not respond within 12 seconds.');
+        timeoutError.code = 'timeout';
+        reject(timeoutError);
+      }, 12000);
+    });
+
+    Promise.race([saveRequest, saveTimeout]).then(function(){
 
       var summaryHTML =
         '<strong>Name:</strong> ' + escapeHTML(name) + '<br>' +
@@ -1733,7 +1742,7 @@
       console.error('Could not save order:', error);
       placeOrderButton.disabled = false;
       placeOrderButton.textContent = 'Place order';
-      alert('We could not save your order. Please try again or contact us on WhatsApp.');
+      alert('We could not save your order (' + (error.code || 'unknown error') + '). Please check Firebase and try again, or contact us on WhatsApp.');
     });
   });
 
