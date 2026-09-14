@@ -1700,14 +1700,14 @@
       items: cart,
       subtotal: subtotal,
       status: 'New',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: new Date().toISOString()
     };
 
     var placeOrderButton = checkoutForm.querySelector('button[type="submit"]');
     placeOrderButton.disabled = true;
     placeOrderButton.textContent = 'Saving order...';
 
-    var saveRequest = db.collection('orders').add(orderData);
+    var saveRequest = saveOrderViaRest(orderData);
     var saveTimeout = new Promise(function(resolve, reject){
       setTimeout(function(){
         var timeoutError = new Error('Firebase did not respond within 12 seconds.');
@@ -1751,6 +1751,34 @@
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function firestoreValue(value){
+    if (value === null){ return { nullValue: null }; }
+    if (Array.isArray(value)){ return { arrayValue: { values: value.map(firestoreValue) } }; }
+    if (typeof value === 'object'){
+      var fields = {};
+      Object.keys(value).forEach(function(key){ fields[key] = firestoreValue(value[key]); });
+      return { mapValue: { fields: fields } };
+    }
+    if (typeof value === 'boolean'){ return { booleanValue: value }; }
+    if (typeof value === 'number'){ return { integerValue: String(value) }; }
+    return { stringValue: String(value) };
+  }
+
+  function saveOrderViaRest(orderData){
+    var fields = {};
+    Object.keys(orderData).forEach(function(key){ fields[key] = firestoreValue(orderData[key]); });
+    return fetch('https://firestore.googleapis.com/v1/projects/mzungu-cakes/databases/(default)/documents/orders', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({fields:fields})
+    }).then(function(response){
+      return response.json().then(function(result){
+        if (!response.ok){ throw new Error((result.error && result.error.message) || 'Firestore request failed'); }
+        return result;
+      });
+    });
   }
 
   document.addEventListener('keydown', function(e){
