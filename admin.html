@@ -49,6 +49,7 @@
       firebase.initializeApp(firebaseConfig);
       var auth = firebase.auth();
       var db = firebase.firestore();
+      db.settings({ experimentalForceLongPolling: true });
       var loginPanel = document.getElementById('loginPanel');
       var dashboardPanel = document.getElementById('dashboardPanel');
       var logoutBtn = document.getElementById('logoutBtn');
