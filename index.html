@@ -1275,6 +1275,14 @@
   var db = firebase.firestore();
   db.settings({ experimentalForceLongPolling: true });
 
+  /* Store only an aggregate count for the current UTC calendar day. */
+  var today = new Date().toISOString().slice(0, 10);
+  db.collection('siteAnalytics').doc(today).set({
+    views: firebase.firestore.FieldValue.increment(1)
+  }, { merge: true }).catch(function(error){
+    console.warn('Could not record page view:', error.message);
+  });
+
   /* Structured home-page content. Hardcoded HTML remains the safe fallback. */
   function applySiteSettings(settings){
     var values = settings || {};

@@ -99,6 +99,18 @@ The **Orders** and **Catalog** navigation items retain the existing order
 status controls and catalog product/flavour editing, including Firebase Storage
 image uploads and deletion of catalog records.
 
+## Page-view analytics
+
+The authenticated **Analytics** panel shows aggregate page views from the public
+`index.html`. Each page load increments one Firestore document in
+`siteAnalytics`, keyed by the UTC date (`YYYY-MM-DD`) and containing only a
+`views` count. No names, phone numbers, cookies, IP addresses, or other
+visitor-level identifying data are collected. Sign in to `admin.html` and open
+**Analytics** to see all-time views, today's UTC total, and the latest daily
+breakdown. Publish the included `firestore.rules` before launch so public writes
+are limited to valid one-view increments and only authenticated users can read
+the aggregates.
+
 ### Rules to publish
 
 The included `firestore.rules` intentionally allows public reads of
