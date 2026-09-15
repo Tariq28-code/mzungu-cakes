@@ -93,7 +93,10 @@ phone, pickup address, menu note, three testimonials, and footer tagline. Use
 **Save / Publish** to write the fields to the Firestore document
 `siteSettings/home`. The public `index.html` reads that document on load and
 keeps its built-in copy if Firebase is unavailable or the document does not
-exist. Content is rendered as text, not arbitrary HTML.
+exist. The editor also controls accessible section transitions with
+`animationEnabled` and the whitelisted `animationStyle` values `fade-up`,
+`fade`, and `zoom`; the defaults are enabled and `fade-up`. Content is rendered
+as text, not arbitrary HTML, and reduced-motion preferences disable transitions.
 
 The **Orders** and **Catalog** navigation items retain the existing order
 status controls and catalog product/flavour editing, including Firebase Storage
