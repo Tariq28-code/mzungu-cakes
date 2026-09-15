@@ -77,9 +77,24 @@ Before using the dashboard:
 1. Enable Email/Password under Firebase Authentication.
 2. Create the admin user under Authentication → Users.
 3. Create the Firestore database.
-4. Publish the rules in `firestore.rules` from the Firebase console.
+4. Enable Storage in the Firebase console, then publish both `firestore.rules`
+   and `storage.rules` from the Firebase console (or with the Firebase CLI).
 
 The dashboard lets the signed-in admin view orders and change their status to
 New, Confirmed, Ready, or Completed. Keep only trusted users in Firebase
 Authentication because signed-in users are allowed to manage orders by the
 included rules.
+
+## CMS catalog
+
+Open `admin.html` and sign in with the Firebase admin user. The Catalog section
+supports structured product and flavour records: name, category, description,
+price, unit, availability, flavour add-on/colour, and an optional image upload.
+Images are stored under `catalog/` in Firebase Storage and must be image files
+no larger than 5 MB. Public visitors read available records from the Firestore
+`catalog` collection; if it has no usable records or cannot be reached, the
+hardcoded menu and flavour options remain visible.
+
+Catalog documents use `kind: 'product'` or `kind: 'flavour'`. Publish updated
+rules after changing them, and test one public page load plus one authenticated
+catalog save/upload before launch.
