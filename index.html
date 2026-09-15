@@ -914,16 +914,16 @@
 
 <div class="topbar">
   <div class="wrap topbar-inner">
-    <a href="https://wa.me/255759683053" target="_blank" rel="noopener" class="topbar-phone">+255 759 683 053</a>
-    <span class="topbar-hours">Mon–Sat: 9AM – 7PM · Sun: Closed</span>
+    <a id="sitePhoneTop" href="https://wa.me/255759683053" target="_blank" rel="noopener" class="topbar-phone">+255 759 683 053</a>
+    <span id="siteHoursTop" class="topbar-hours">Mon–Sat: 9AM – 7PM · Sun: Closed</span>
   </div>
 </div>
 
 <header>
   <div class="wrap header-inner">
     <a href="#top" class="logo" aria-label="MZUNGU Cakes home">
-      <span class="script">Mzungu</span>
-      <span class="caps">CAKES</span>
+      <span id="siteBrand" class="script">Mzungu</span>
+      <span id="siteBrandCaps" class="caps">CAKES</span>
     </a>
     <nav id="mainNav" aria-label="Primary">
       <a href="#builder">Build a Cake</a>
@@ -948,8 +948,8 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
-        <h1>A cake exactly as you pictured it.</h1>
-        <p>Design your shape, flavour and icing, watch it come together, and pick it up in Dar es Salaam — no deposit, pay when you collect.</p>
+        <h1 id="siteHeroHeading">A cake exactly as you pictured it.</h1>
+        <p id="siteHeroParagraph">Design your shape, flavour and icing, watch it come together, and pick it up in Dar es Salaam — no deposit, pay when you collect.</p>
         <a href="#builder" class="cta">Start designing</a>
       </div>
       <div class="hero-art">
@@ -1123,7 +1123,7 @@
           </div>
         </div>
       </div>
-      <p class="menu-note">Prices shown are placeholders — request these directly on <a href="https://wa.me/255759683053" target="_blank" rel="noopener">WhatsApp</a>.</p>
+      <p class="menu-note"><span id="siteMenuNote">Prices shown are placeholders — request these directly on</span> <a href="https://wa.me/255759683053" target="_blank" rel="noopener">WhatsApp</a>.</p>
     </div>
   </section>
 
@@ -1136,16 +1136,16 @@
       </div>
       <div class="testimonial-grid">
         <blockquote class="testimonial-card">
-          <p>“The cake looked exactly like the preview I designed — even the icing colour matched perfectly.”</p>
-          <cite>— Amina H.</cite>
+          <p id="testimonialQuote1">“The cake looked exactly like the preview I designed — even the icing colour matched perfectly.”</p>
+          <cite id="testimonialAuthor1">— Amina H.</cite>
         </blockquote>
         <blockquote class="testimonial-card">
-          <p>“Ordering on WhatsApp was so easy, and the price was clear from the start. No surprises at pickup.”</p>
-          <cite>— Joseph M.</cite>
+          <p id="testimonialQuote2">“Ordering on WhatsApp was so easy, and the price was clear from the start. No surprises at pickup.”</p>
+          <cite id="testimonialAuthor2">— Joseph M.</cite>
         </blockquote>
         <blockquote class="testimonial-card">
-          <p>“Booked a wedding cake with three tiers — it was moist, beautifully finished, and on time.”</p>
-          <cite>— Fatma S.</cite>
+          <p id="testimonialQuote3">“Booked a wedding cake with three tiers — it was moist, beautifully finished, and on time.”</p>
+          <cite id="testimonialAuthor3">— Fatma S.</cite>
         </blockquote>
       </div>
       <p class="menu-note">Placeholder quotes — swap in real customer feedback once available.</p>
@@ -1231,7 +1231,7 @@
   <div class="wrap">
     <div class="footer-columns">
       <div class="footer-col">
-        <span class="footer-tagline">Baked with love, picked up with pride.</span>
+        <span id="siteFooterTagline" class="footer-tagline">Baked with love, picked up with pride.</span>
         <div class="footer-links">
           <a href="https://wa.me/255759683053" target="_blank" rel="noopener">WhatsApp</a>
           <a href="https://instagram.com/mzungucakes" target="_blank" rel="noopener">Instagram</a>
@@ -1239,9 +1239,9 @@
       </div>
       <div class="footer-col">
         <h3 class="footer-heading">Visit or order</h3>
-        <p class="footer-detail">Placeholder pickup address, Dar es Salaam, Tanzania</p>
-        <p class="footer-detail">Mon–Sat: 9AM – 7PM · Sun: Closed</p>
-        <p class="footer-detail"><a href="https://wa.me/255759683053" target="_blank" rel="noopener">+255 759 683 053</a></p>
+        <p id="sitePickupAddress" class="footer-detail">Placeholder pickup address, Dar es Salaam, Tanzania</p>
+        <p id="siteHoursFooter" class="footer-detail">Mon–Sat: 9AM – 7PM · Sun: Closed</p>
+        <p class="footer-detail"><a id="sitePhoneFooter" href="https://wa.me/255759683053" target="_blank" rel="noopener">+255 759 683 053</a></p>
       </div>
       <div class="footer-col">
         <h3 class="footer-heading">Find us</h3>
@@ -1274,6 +1274,48 @@
   firebase.initializeApp(firebaseConfig);
   var db = firebase.firestore();
   db.settings({ experimentalForceLongPolling: true });
+
+  /* Structured home-page content. Hardcoded HTML remains the safe fallback. */
+  function applySiteSettings(settings){
+    var values = settings || {};
+    function text(id, fallback){
+      var el = document.getElementById(id);
+      if (el) el.textContent = values[id] || fallback;
+    }
+    function phone(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var value = values.phone || '+255 759 683 053';
+      el.textContent = value;
+      el.href = 'https://wa.me/' + value.replace(/[^0-9]/g, '');
+    }
+    text('siteBrand', 'Mzungu');
+    text('siteBrandCaps', 'CAKES');
+    text('siteHeroHeading', 'A cake exactly as you pictured it.');
+    text('siteHeroParagraph', 'Design your shape, flavour and icing, watch it come together, and pick it up in Dar es Salaam — no deposit, pay when you collect.');
+    text('siteHoursTop', values.siteHours || 'Mon–Sat: 9AM – 7PM · Sun: Closed');
+    text('siteHoursFooter', values.siteHours || 'Mon–Sat: 9AM – 7PM · Sun: Closed');
+    text('sitePickupAddress', values.address || 'Placeholder pickup address, Dar es Salaam, Tanzania');
+    text('siteMenuNote', values.menuNote || 'Prices shown are placeholders — request these directly on');
+    text('siteFooterTagline', values.footerTagline || 'Baked with love, picked up with pride.');
+    phone('sitePhoneTop');
+    phone('sitePhoneFooter');
+    var testimonials = Array.isArray(values.testimonials) ? values.testimonials : [];
+    for (var i = 0; i < 3; i++){
+      var fallbackQuotes = [
+        '“The cake looked exactly like the preview I designed — even the icing colour matched perfectly.”',
+        '“Ordering on WhatsApp was so easy, and the price was clear from the start. No surprises at pickup.”',
+        '“Booked a wedding cake with three tiers — it was moist, beautifully finished, and on time.”'
+      ];
+      var fallbackAuthors = ['— Amina H.', '— Joseph M.', '— Fatma S.'];
+      var item = testimonials[i] || {};
+      text('testimonialQuote' + (i + 1), item.quote || fallbackQuotes[i]);
+      text('testimonialAuthor' + (i + 1), item.author || fallbackAuthors[i]);
+    }
+  }
+  db.collection('siteSettings').doc('home').get().then(function(doc){
+    if (doc.exists) applySiteSettings(doc.data());
+  }).catch(function(error){ console.warn('Using built-in page content fallback:', error.message); });
 
   document.getElementById('year').textContent = new Date().getFullYear();
 

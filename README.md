@@ -85,6 +85,29 @@ New, Confirmed, Ready, or Completed. Keep only trusted users in Firebase
 Authentication because signed-in users are allowed to manage orders by the
 included rules.
 
+## Page editor
+
+After signing in at `admin.html`, the **Page editor** opens first. It has a
+main-page-style preview and structured fields for the brand, hero copy, hours,
+phone, pickup address, menu note, three testimonials, and footer tagline. Use
+**Save / Publish** to write the fields to the Firestore document
+`siteSettings/home`. The public `index.html` reads that document on load and
+keeps its built-in copy if Firebase is unavailable or the document does not
+exist. Content is rendered as text, not arbitrary HTML.
+
+The **Orders** and **Catalog** navigation items retain the existing order
+status controls and catalog product/flavour editing, including Firebase Storage
+image uploads and deletion of catalog records.
+
+### Rules to publish
+
+The included `firestore.rules` intentionally allows public reads of
+`siteSettings`, `catalog`, and customer order creation, while authenticated
+Firebase users can write site settings and catalog records and manage orders.
+Do not remove the `siteSettings` rule or the existing order/catalog rules when
+publishing changes. Publish `storage.rules` as well so catalog image uploads
+remain limited to authenticated users, images, and 5 MB.
+
 ## CMS catalog
 
 Open `admin.html` and sign in with the Firebase admin user. The Catalog section
