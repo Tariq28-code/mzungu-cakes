@@ -60,20 +60,23 @@ Order statuses are `New`, `Confirmed`, `Ready`, and `Completed`.
 
 ### Catalog
 
-The Catalog area controls public products and cake-builder flavours.
+The Catalog area controls public products, cake-builder flavours, shapes, and
+design directions.
 
 The **Import current menu and flavours** button creates the original built-in
-items in Firebase. It skips matching items that already exist, so it is safe to
+items in Firebase, including the built-in shapes and three design directions for
+each occasion. It skips matching kind/name/occasion records, so it is safe to
 use once during setup.
 
 The admin can then:
 
-- Add products or flavours.
+- Add products, flavours, shapes, or design directions.
 - Edit existing items.
 - Delete items.
 - Change names, categories, descriptions, prices, units, and availability.
 - Set flavour add-on prices and flavour colours.
-- Upload product and flavour images.
+- Set shape add-on prices and choose a design occasion/type.
+- Upload optional product, flavour, shape, and design images.
 - Preview an item before saving it.
 
 When catalog records exist, the public website uses them instead of the

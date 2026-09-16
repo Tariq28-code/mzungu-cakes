@@ -126,13 +126,17 @@ remain limited to authenticated users, images, and 5 MB.
 ## CMS catalog
 
 Open `admin.html` and sign in with the Firebase admin user. The Catalog section
-supports structured product and flavour records: name, category, description,
-price, unit, availability, flavour add-on/colour, and an optional image upload.
+supports structured product, flavour, cake shape, and design-direction records.
+Shapes have a name, add-on price, and optional image. Design directions have a
+name, occasion/type, description metadata, and optional image. Products and
+flavours retain their existing fields and preview.
 Images are stored under `catalog/` in Firebase Storage and must be image files
 no larger than 5 MB. Public visitors read available records from the Firestore
 `catalog` collection; if it has no usable records or cannot be reached, the
 hardcoded menu and flavour options remain visible.
 
-Catalog documents use `kind: 'product'` or `kind: 'flavour'`. Publish updated
+Catalog documents use `kind: 'product'`, `'flavour'`, `'shape'`, or `'design'`.
+The import action also seeds the built-in shapes and design directions without
+duplicating matching records. Publish updated
 rules after changing them, and test one public page load plus one authenticated
 catalog save/upload before launch.
