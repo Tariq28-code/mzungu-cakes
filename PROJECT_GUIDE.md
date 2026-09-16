@@ -84,6 +84,8 @@ When catalog records exist, the public website uses them instead of the
 built-in fallback menu and flavour data. If Firebase is empty or unavailable,
 the website falls back to its built-in content so the public page can still
 load.
+Cupcake cards use accessible multi-select flavour checkboxes from the active
+flavour records, and the choices are included in their WhatsApp request.
 
 ### Analytics
 

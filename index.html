@@ -538,6 +538,27 @@
     font:inherit;
     font-size:13px;
   }
+  .menu-flavours{
+    margin:16px 0 0;
+    padding:0;
+    border:0;
+  }
+  .menu-flavours .menu-select-label{
+    margin-top:0;
+  }
+  .menu-flavour-option{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:8px 0;
+    color:var(--plum-soft);
+    font-size:13px;
+  }
+  .menu-flavour-option input{
+    width:16px;
+    height:16px;
+    accent-color:var(--wine);
+  }
   .menu-note{
     margin-top:28px;
     font-size:13px;
@@ -1082,12 +1103,15 @@
              <p>Boxed by the dozen, mixed or single flavour.</p>
              <span class="menu-price">from TZS 28,000 / dozen</span>
              <label class="menu-select-label" for="cupcakeQuantity">How many dozen?</label>
-             <select class="menu-select" id="cupcakeQuantity">
-               <option value="1 dozen">1 dozen</option>
-               <option value="2 dozen">2 dozen</option>
-               <option value="3 dozen">3 dozen</option>
-             </select>
-             <a class="menu-order" id="cupcakeOrderBtn" href="#" target="_blank" rel="noopener">Order cupcakes</a>
+              <select class="menu-select" id="cupcakeQuantity">
+                <option value="1 dozen">1 dozen</option>
+                <option value="2 dozen">2 dozen</option>
+                <option value="3 dozen">3 dozen</option>
+              </select>
+              <fieldset class="menu-flavours" id="cupcakeFlavourOptions">
+                <legend class="menu-select-label">Choose flavour(s)</legend>
+              </fieldset>
+              <a class="menu-order" id="cupcakeOrderBtn" href="#" target="_blank" rel="noopener">Order cupcakes</a>
            </div>
          </div>
          <div class="menu-card">
@@ -1475,15 +1499,17 @@
     { id:'three-dozen',name:'3 dozen',  meta:'Serves about 30–36', mult:3 }
   ];
 
-  var state = {
+   var state = {
     type:'birthday',
     shape:'round',
     flavour:'vanilla',
     icing:'blush',
     size:'medium',
     design:'birthday-classic'
-  };
-  var cart = [];
+   };
+   var selectedCupcakeFlavours = [];
+   var readyMadeControlCounter = 0;
+   var cart = [];
   var orderCounter = 214; // starting reference sequence
 
   /* ---------------- Render option groups ---------------- */
@@ -1682,8 +1708,7 @@
        if (item.kind === 'shape') shapes.push(item);
        if (item.kind === 'design' && ['birthday','wedding','cupcakes','custom'].indexOf(item.occasion || item.type) !== -1) designs.push(item);
      });
-     if (products.length) renderCatalogProducts(products);
-     if (shapes.length){
+      if (shapes.length){
        SHAPES = shapes.map(function(item){ return {id:item.id, name:item.name, addon:Number(item.addon || 0), image:item.image || ''}; });
        if (!SHAPES.some(function(item){ return item.id === state.shape; })) state.shape = SHAPES[0].id;
        renderAllOptions(); renderPreview();
@@ -1697,12 +1722,16 @@
        if (currentDesigns.length && !currentDesigns.some(function(item){ return item.id === state.design; })) state.design = currentDesigns[0].id;
        renderAllOptions(); renderPreview();
      }
-     if (flavours.length){
-       FLAVOURS = flavours.map(function(item){ return {id:slug(item.name), name:item.name, addon:Number(item.addon || 0), color:item.color || '#F3E3B8', image:item.image || ''}; });
-       if (!FLAVOURS.some(function(item){ return item.id === state.flavour; })) state.flavour = FLAVOURS[0].id;
-       renderAllOptions(); renderPreview();
-     }
-  }).catch(function(error){ console.warn('Using built-in catalog fallback:', error.message); });
+      if (flavours.length){
+        FLAVOURS = flavours.map(function(item){ return {id:slug(item.name), name:item.name, addon:Number(item.addon || 0), color:item.color || '#F3E3B8', image:item.image || ''}; });
+        selectedCupcakeFlavours = selectedCupcakeFlavours.filter(function(id){ return FLAVOURS.some(function(flavour){ return flavour.id === id; }); });
+        if (!FLAVOURS.some(function(item){ return item.id === state.flavour; })) state.flavour = FLAVOURS[0].id;
+        renderAllOptions(); renderPreview();
+        renderCupcakeFlavourOptions(document.getElementById('cupcakeFlavourOptions'), 'cupcake-fallback', selectedCupcakeFlavours, function(ids){ selectedCupcakeFlavours = ids; updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value, '', flavourNames(selectedCupcakeFlavours)); });
+        updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value, '', flavourNames(selectedCupcakeFlavours));
+      }
+      if (products.length) renderCatalogProducts(products);
+   }).catch(function(error){ console.warn('Using built-in catalog fallback:', error.message); });
 
    function slug(value){ return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'; }
     function readyMadeType(item){
@@ -1715,34 +1744,58 @@
       if (text.indexOf('drink') !== -1 || text.indexOf('juice') !== -1 || text.indexOf('shake') !== -1 || text.indexOf('smoothie') !== -1) return 'drinks';
       return '';
     }
-    function readyMadeQuantityOptions(type){
+     function readyMadeQuantityOptions(type){
       if (type === 'brownies') return {label:'How many trays?', values:['1 tray','2 trays','3 trays']};
       if (type === 'loaves') return {label:'How many loaves?', values:['1 loaf','2 loaves','3 loaves']};
-      return {label:'How many dozen?', values:['1 dozen','2 dozen','3 dozen']};
-    }
-    function addReadyMadeControls(content, item, order){
-      var type = readyMadeType(item);
-      if (!type) return;
-     if (type === 'drinks'){
-       var categoryLabel = document.createElement('label'); categoryLabel.className = 'menu-select-label'; categoryLabel.textContent = 'Choose a drink category'; categoryLabel.htmlFor = slug(item.name) + '-category';
-       var category = document.createElement('select'); category.className = 'menu-select'; category.id = categoryLabel.htmlFor;
+       return {label:'How many dozen?', values:['1 dozen','2 dozen','3 dozen']};
+     }
+     function renderCupcakeFlavourOptions(container, idPrefix, selected, onChange){
+       container.innerHTML = '';
+       var legend = document.createElement('legend'); legend.className = 'menu-select-label'; legend.textContent = 'Choose flavour(s)'; container.appendChild(legend);
+       FLAVOURS.forEach(function(item, index){
+         var wrap = document.createElement('label'); wrap.className = 'menu-flavour-option';
+         var input = document.createElement('input'); input.type = 'checkbox'; input.id = idPrefix + '-flavour-' + index; input.value = item.id; input.checked = selected.indexOf(item.id) !== -1;
+         wrap.htmlFor = input.id; wrap.appendChild(input); wrap.appendChild(document.createTextNode(item.name)); container.appendChild(wrap);
+         input.addEventListener('change', function(){ onChange(getSelectedCupcakeFlavours(container)); });
+       });
+     }
+     function getSelectedCupcakeFlavours(container){
+       return Array.prototype.slice.call(container.querySelectorAll('input[type="checkbox"]:checked')).map(function(input){ return input.value; });
+     }
+     function flavourNames(ids){
+       return ids.map(function(id){ var item = findById(FLAVOURS, id); return item && item.id === id ? item.name : ''; }).filter(Boolean);
+     }
+     function addReadyMadeControls(content, item, order){
+       var type = readyMadeType(item);
+       if (!type) return;
+       var controlPrefix = 'ready-made-' + (++readyMadeControlCounter) + '-' + slug(item.name);
+      if (type === 'drinks'){
+        var categoryLabel = document.createElement('label'); categoryLabel.className = 'menu-select-label'; categoryLabel.textContent = 'Choose a drink category'; categoryLabel.htmlFor = controlPrefix + '-category';
+        var category = document.createElement('select'); category.className = 'menu-select'; category.id = categoryLabel.htmlFor;
        ['Fresh juice','Milkshake','Smoothie','Iced coffee','Other drink'].forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; category.appendChild(option); });
        content.appendChild(categoryLabel); content.appendChild(category);
-       var quantityLabel = document.createElement('label'); quantityLabel.className = 'menu-select-label'; quantityLabel.textContent = 'How many servings?'; quantityLabel.htmlFor = slug(item.name) + '-quantity';
+        var quantityLabel = document.createElement('label'); quantityLabel.className = 'menu-select-label'; quantityLabel.textContent = 'How many servings?'; quantityLabel.htmlFor = controlPrefix + '-quantity';
        var quantity = document.createElement('select'); quantity.className = 'menu-select'; quantity.id = quantityLabel.htmlFor;
        ['1 serving','2 servings','4 servings','6 servings'].forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; quantity.appendChild(option); });
        content.appendChild(quantityLabel); content.appendChild(quantity);
        function update(){ order.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I would like to order ' + item.name + ' (' + category.value + '), quantity: ' + quantity.value + '. Please share today\'s options and availability.'); }
         category.addEventListener('change', update); quantity.addEventListener('change', update); update();
-      } else {
-        var quantityOptions = readyMadeQuantityOptions(type);
-        var label = document.createElement('label'); label.className = 'menu-select-label'; label.textContent = quantityOptions.label; label.htmlFor = slug(item.name) + '-quantity';
-        var select = document.createElement('select'); select.className = 'menu-select'; select.id = label.htmlFor;
+       } else {
+         var quantityOptions = readyMadeQuantityOptions(type);
+         var label = document.createElement('label'); label.className = 'menu-select-label'; label.textContent = quantityOptions.label; label.htmlFor = controlPrefix + '-quantity';
+         var select = document.createElement('select'); select.className = 'menu-select'; select.id = label.htmlFor;
         quantityOptions.values.forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; select.appendChild(option); });
-        content.appendChild(label); content.appendChild(select);
-       select.addEventListener('change', function(){ order.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I would like to order ' + item.name + ', quantity: ' + select.value + '. Please share today\'s options and availability.'); });
-       select.dispatchEvent(new Event('change'));
-     }
+         content.appendChild(label); content.appendChild(select);
+        if (type === 'cupcakes'){
+          var flavourFieldset = document.createElement('fieldset'); flavourFieldset.className = 'menu-flavours';
+          var selected = [];
+          renderCupcakeFlavourOptions(flavourFieldset, controlPrefix, selected, function(ids){ selected = ids; update(); });
+          content.appendChild(flavourFieldset);
+        }
+        function update(){ updateReadyMadeLink(order, item.name, select.value, '', type === 'cupcakes' ? flavourNames(selected) : []); }
+        select.addEventListener('change', update);
+        select.dispatchEvent(new Event('change'));
+      }
    }
    function renderCatalogProducts(products){
     var grid = document.getElementById('catalogProducts'); grid.innerHTML = '';
@@ -1853,10 +1906,11 @@
     });
   });
 
-  function updateReadyMadeLink(button, product, quantity, category){
-    var detail = category ? product + ' (' + category + ')' : product;
-    button.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I\'d like to order ' + detail + ', quantity: ' + quantity + '. Please share today\'s options and availability.');
-  }
+   function updateReadyMadeLink(button, product, quantity, category, flavours){
+     var detail = category ? product + ' (' + category + ')' : product;
+     var flavourDetail = product.toLowerCase().indexOf('cupcake') !== -1 ? (flavours && flavours.length ? ' Flavours: ' + flavours.join(', ') + '.' : ' No specific flavour selected; please share available options.') : '';
+     button.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I\'d like to order ' + detail + ', quantity: ' + quantity + '.' + flavourDetail + ' Please share today\'s options and availability.');
+   }
   var cupcakeQuantity = document.getElementById('cupcakeQuantity');
   var cupcakeOrderBtn = document.getElementById('cupcakeOrderBtn');
   var muffinQuantity = document.getElementById('muffinQuantity');
@@ -1867,12 +1921,13 @@
    var brownieOrderBtn = document.getElementById('brownieOrderBtn');
    var loafQuantity = document.getElementById('loafQuantity');
    var loafOrderBtn = document.getElementById('loafOrderBtn');
-   cupcakeQuantity.addEventListener('change', function(){ updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value); });
+   renderCupcakeFlavourOptions(document.getElementById('cupcakeFlavourOptions'), 'cupcake-fallback', selectedCupcakeFlavours, function(ids){ selectedCupcakeFlavours = ids; updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value, '', flavourNames(selectedCupcakeFlavours)); });
+   cupcakeQuantity.addEventListener('change', function(){ updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value, '', flavourNames(selectedCupcakeFlavours)); });
    muffinQuantity.addEventListener('change', function(){ updateReadyMadeLink(muffinOrderBtn, 'muffins', muffinQuantity.value); });
    cookieQuantity.addEventListener('change', function(){ updateReadyMadeLink(cookieOrderBtn, 'cookies', cookieQuantity.value); });
    brownieQuantity.addEventListener('change', function(){ updateReadyMadeLink(brownieOrderBtn, 'brownies', brownieQuantity.value); });
    loafQuantity.addEventListener('change', function(){ updateReadyMadeLink(loafOrderBtn, 'loaf cakes', loafQuantity.value); });
-   updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value);
+   updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value, '', flavourNames(selectedCupcakeFlavours));
    updateReadyMadeLink(muffinOrderBtn, 'muffins', muffinQuantity.value);
    updateReadyMadeLink(cookieOrderBtn, 'cookies', cookieQuantity.value);
    updateReadyMadeLink(brownieOrderBtn, 'brownies', brownieQuantity.value);

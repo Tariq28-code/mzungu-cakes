@@ -137,6 +137,10 @@ no larger than 5 MB. Public visitors read available records from the Firestore
 hardcoded menu and flavour options remain visible.
 
 Catalog documents use `kind: 'product'`, `'flavour'`, `'shape'`, or `'design'`.
+Cupcake ordering shows the currently available flavour records as accessible
+multi-select checkboxes; the selection is included in the WhatsApp request.
+If no flavour is selected, the request asks the bakery to share available
+options. Refresh the public page after an admin catalogue change.
 The import action also seeds the built-in shapes and design directions without
 duplicating matching records. Publish updated
 rules after changing them, and test one public page load plus one authenticated
