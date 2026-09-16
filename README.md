@@ -10,8 +10,9 @@ browser, or upload it as-is to any static host.
   preview and live pricing
 - Cart drawer + checkout modal that generates an order reference and a
   pre-filled WhatsApp confirmation link
-- A "ready-made treats" menu grid (cupcakes, cookies, brownies, loaf cakes,
-  drinks, special packages)
+- A "ready-made treats" menu grid (cupcakes, muffins, cookies, brownies, loaf
+  cakes, drinks, special packages) with quantity-aware WhatsApp ordering for
+  cupcakes, muffins, and drinks
 - Testimonials section
 - Footer with address/hours/map, styled to match Soul Treats-style local
   bakery sites in Dar es Salaam

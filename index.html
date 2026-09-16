@@ -1079,11 +1079,32 @@
           <img class="menu-photo" src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Decorated cupcakes" width="700" height="438" loading="lazy">
           <div class="menu-card-content">
             <h3>Cupcakes</h3>
-            <p>Boxed by the dozen, mixed or single flavour.</p>
-            <span class="menu-price">from TZS 28,000 / dozen</span>
-            <a class="menu-order" href="https://wa.me/255759683053?text=Hi%20MZUNGU%20Cakes%2C%20I%27d%20like%20to%20order%20cupcakes.%20Please%20share%20today%27s%20flavours%20and%20availability." target="_blank" rel="noopener">Order cupcakes</a>
-          </div>
-        </div>
+             <p>Boxed by the dozen, mixed or single flavour.</p>
+             <span class="menu-price">from TZS 28,000 / dozen</span>
+             <label class="menu-select-label" for="cupcakeQuantity">How many dozen?</label>
+             <select class="menu-select" id="cupcakeQuantity">
+               <option value="1 dozen">1 dozen</option>
+               <option value="2 dozen">2 dozen</option>
+               <option value="3 dozen">3 dozen</option>
+             </select>
+             <a class="menu-order" id="cupcakeOrderBtn" href="#" target="_blank" rel="noopener">Order cupcakes</a>
+           </div>
+         </div>
+         <div class="menu-card">
+           <img class="menu-photo" src="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Freshly baked muffins" width="700" height="438" loading="lazy">
+           <div class="menu-card-content">
+             <h3>Muffins</h3>
+             <p>Soft, freshly baked muffins for breakfast, gifting, or sharing.</p>
+             <span class="menu-price">from TZS 24,000 / dozen</span>
+             <label class="menu-select-label" for="muffinQuantity">How many dozen?</label>
+             <select class="menu-select" id="muffinQuantity">
+               <option value="1 dozen">1 dozen</option>
+               <option value="2 dozen">2 dozen</option>
+               <option value="3 dozen">3 dozen</option>
+             </select>
+             <a class="menu-order" id="muffinOrderBtn" href="#" target="_blank" rel="noopener">Order muffins</a>
+           </div>
+         </div>
         <div class="menu-card">
           <img class="menu-photo" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Freshly baked cookies" width="700" height="438" loading="lazy">
           <div class="menu-card-content">
@@ -1124,8 +1145,15 @@
               <option value="Smoothie">Smoothie</option>
               <option value="Iced coffee">Iced coffee</option>
               <option value="Other drink">Other drink</option>
-            </select>
-            <a class="menu-order" id="drinkOrderBtn" href="https://wa.me/255759683053?text=Hi%20MZUNGU%20Cakes%2C%20I%27d%20like%20to%20order%20a%20Fresh%20juice.%20Please%20share%20today%27s%20options%20and%20availability." target="_blank" rel="noopener">Order selected drink</a>
+             </select>
+             <label class="menu-select-label" for="drinkQuantity">How many servings?</label>
+             <select class="menu-select" id="drinkQuantity">
+               <option value="1 serving">1 serving</option>
+               <option value="2 servings">2 servings</option>
+               <option value="4 servings">4 servings</option>
+               <option value="6 servings">6 servings</option>
+             </select>
+             <a class="menu-order" id="drinkOrderBtn" href="#" target="_blank" rel="noopener">Order selected drink</a>
           </div>
         </div>
         <div class="menu-card">
@@ -1658,8 +1686,38 @@
      }
   }).catch(function(error){ console.warn('Using built-in catalog fallback:', error.message); });
 
-  function slug(value){ return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'; }
-  function renderCatalogProducts(products){
+   function slug(value){ return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'; }
+   function readyMadeType(item){
+     var text = String((item.name || '') + ' ' + (item.category || '')).toLowerCase();
+     if (text.indexOf('cupcake') !== -1) return 'cupcakes';
+     if (text.indexOf('muffin') !== -1) return 'muffins';
+     if (text.indexOf('drink') !== -1 || text.indexOf('juice') !== -1 || text.indexOf('shake') !== -1 || text.indexOf('smoothie') !== -1) return 'drinks';
+     return '';
+   }
+   function addReadyMadeControls(content, item, order){
+     var type = readyMadeType(item);
+     if (!type) return;
+     if (type === 'drinks'){
+       var categoryLabel = document.createElement('label'); categoryLabel.className = 'menu-select-label'; categoryLabel.textContent = 'Choose a drink category'; categoryLabel.htmlFor = slug(item.name) + '-category';
+       var category = document.createElement('select'); category.className = 'menu-select'; category.id = categoryLabel.htmlFor;
+       ['Fresh juice','Milkshake','Smoothie','Iced coffee','Other drink'].forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; category.appendChild(option); });
+       content.appendChild(categoryLabel); content.appendChild(category);
+       var quantityLabel = document.createElement('label'); quantityLabel.className = 'menu-select-label'; quantityLabel.textContent = 'How many servings?'; quantityLabel.htmlFor = slug(item.name) + '-quantity';
+       var quantity = document.createElement('select'); quantity.className = 'menu-select'; quantity.id = quantityLabel.htmlFor;
+       ['1 serving','2 servings','4 servings','6 servings'].forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; quantity.appendChild(option); });
+       content.appendChild(quantityLabel); content.appendChild(quantity);
+       function update(){ order.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I would like to order ' + item.name + ' (' + category.value + '), quantity: ' + quantity.value + '. Please share today\'s options and availability.'); }
+       category.addEventListener('change', update); quantity.addEventListener('change', update); update();
+     } else {
+       var label = document.createElement('label'); label.className = 'menu-select-label'; label.textContent = 'How many dozen?'; label.htmlFor = slug(item.name) + '-quantity';
+       var select = document.createElement('select'); select.className = 'menu-select'; select.id = label.htmlFor;
+       ['1 dozen','2 dozen','3 dozen'].forEach(function(value){ var option = document.createElement('option'); option.value = value; option.textContent = value; select.appendChild(option); });
+       content.appendChild(label); content.appendChild(select);
+       select.addEventListener('change', function(){ order.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I would like to order ' + item.name + ', quantity: ' + select.value + '. Please share today\'s options and availability.'); });
+       select.dispatchEvent(new Event('change'));
+     }
+   }
+   function renderCatalogProducts(products){
     var grid = document.getElementById('catalogProducts'); grid.innerHTML = '';
     products.forEach(function(item){
       var card = document.createElement('div'); card.className = 'menu-card';
@@ -1668,7 +1726,7 @@
       var title = document.createElement('h3'); title.textContent = item.name; content.appendChild(title);
       if (item.description){ var description = document.createElement('p'); description.textContent = item.description; content.appendChild(description); }
       var price = document.createElement('span'); price.className = 'menu-price'; price.textContent = item.price ? 'from TZS '+Number(item.price).toLocaleString('en-US')+(item.unit ? ' / '+item.unit : '') : 'ask us for a quote'; content.appendChild(price);
-      var order = document.createElement('a'); order.className = 'menu-order'; order.target = '_blank'; order.rel = 'noopener'; order.textContent = 'Order '+item.name; order.href = 'https://wa.me/255759683053?text='+encodeURIComponent('Hi MZUNGU Cakes, I would like to order '+item.name+'. Please share today\'s options and availability.'); content.appendChild(order);
+       var order = document.createElement('a'); order.className = 'menu-order'; order.target = '_blank'; order.rel = 'noopener'; order.textContent = 'Order '+item.name; order.href = 'https://wa.me/255759683053?text='+encodeURIComponent('Hi MZUNGU Cakes, I would like to order '+item.name+'. Please share today\'s options and availability.'); addReadyMadeControls(content, item, order); content.appendChild(order);
       card.appendChild(content); grid.appendChild(card);
     });
   }
@@ -1768,14 +1826,28 @@
     });
   });
 
+  function updateReadyMadeLink(button, product, quantity, category){
+    var detail = category ? product + ' (' + category + ')' : product;
+    button.href = 'https://wa.me/255759683053?text=' + encodeURIComponent('Hi MZUNGU Cakes, I\'d like to order ' + detail + ', quantity: ' + quantity + '. Please share today\'s options and availability.');
+  }
+  var cupcakeQuantity = document.getElementById('cupcakeQuantity');
+  var cupcakeOrderBtn = document.getElementById('cupcakeOrderBtn');
+  var muffinQuantity = document.getElementById('muffinQuantity');
+  var muffinOrderBtn = document.getElementById('muffinOrderBtn');
+  cupcakeQuantity.addEventListener('change', function(){ updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value); });
+  muffinQuantity.addEventListener('change', function(){ updateReadyMadeLink(muffinOrderBtn, 'muffins', muffinQuantity.value); });
+  updateReadyMadeLink(cupcakeOrderBtn, 'cupcakes', cupcakeQuantity.value);
+  updateReadyMadeLink(muffinOrderBtn, 'muffins', muffinQuantity.value);
   var drinkType = document.getElementById('drinkType');
+  var drinkQuantity = document.getElementById('drinkQuantity');
   var drinkOrderBtn = document.getElementById('drinkOrderBtn');
   function updateDrinkOrderLink(){
     var drink = drinkType.value;
-    var message = 'Hi MZUNGU Cakes, I\'d like to order a ' + drink + '. Please share today\'s flavours, sizes, prices and availability.';
-    drinkOrderBtn.href = 'https://wa.me/255759683053?text=' + encodeURIComponent(message);
+    updateReadyMadeLink(drinkOrderBtn, 'drinks', drinkQuantity.value, drink);
   }
   drinkType.addEventListener('change', updateDrinkOrderLink);
+  drinkQuantity.addEventListener('change', updateDrinkOrderLink);
+  updateDrinkOrderLink();
 
   /* ---------------- Checkout modal ---------------- */
   var modal = document.getElementById('checkoutModal');

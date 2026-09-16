@@ -93,7 +93,13 @@
       },true);
       function buttonDisabled(button,value){button.disabled=value;}
       document.addEventListener('click',function(event){if(!event.target.classList.contains('edit-catalog'))return;setTimeout(function(){if(!managed())return;db.collection('catalog').where('kind','==',kind.value).where('name','==',document.getElementById('catalogName').value.trim()).get().then(function(snapshot){if(!snapshot.empty){var item=snapshot.docs[0].data();if(item.occasion)occasion.value=item.occasion;update();}});},0);});
-      update();
+       importButton.addEventListener('click',function(){
+         var muffin={kind:'product',name:'Muffins',description:'Soft, freshly baked muffins for breakfast, gifting, or sharing.',price:24000,unit:'dozen',category:'Ready-made treats',image:'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=700&q=80',available:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+         db.collection('catalog').where('kind','==','product').where('name','==','Muffins').get().then(function(snapshot){
+           if(snapshot.empty) return db.collection('catalog').doc('muffins').set(muffin);
+         });
+       });
+       update();
     })();
     </script>
   </body>
