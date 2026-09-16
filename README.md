@@ -12,7 +12,7 @@ browser, or upload it as-is to any static host.
   pre-filled WhatsApp confirmation link
 - A "ready-made treats" menu grid (cupcakes, muffins, cookies, brownies, loaf
   cakes, drinks, special packages) with quantity-aware WhatsApp ordering for
-  cupcakes, muffins, and drinks
+  cupcakes, muffins, cookies, brownies, loaf cakes, and drinks
 - Testimonials section
 - Footer with address/hours/map, styled to match Soul Treats-style local
   bakery sites in Dar es Salaam

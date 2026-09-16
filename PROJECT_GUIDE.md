@@ -29,6 +29,7 @@ Customers can:
 - Receive an order reference and confirm the order through WhatsApp.
 - Order ready-made products directly through WhatsApp.
 - Choose a drink category before ordering drinks.
+- Choose quantities for ready-made cupcakes, muffins, cookies, brownies, loaf cakes, and drinks before opening WhatsApp.
 
 The custom checkout stores website orders in Firebase and also gives the
 customer a WhatsApp confirmation link. Ready-made product links open WhatsApp
