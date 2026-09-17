@@ -12,8 +12,9 @@ needs to understand or operate the project without reading all of the code.
 - Firebase project: `mzungu-cakes`
 
 The website is hosted on GitHub Pages. The customer-facing site is static, but
-Firebase provides the database, login, image storage, orders, page settings,
-and analytics.
+Firebase provides the database, login, orders, page settings, and analytics.
+Catalog images use public URLs, so Firebase Storage and Blaze billing are not
+required.
 
 ## 2. What The Website Does
 
@@ -162,10 +163,11 @@ The project uses these collections:
 | `siteSettings` | Editable page content, stored in document `home` |
 | `siteAnalytics` | Daily public page-view totals |
 
-### Firebase Storage
+### Catalog images
 
-Uploaded catalog images are stored under the `catalog/` path in Firebase
-Storage. The public site reads the resulting image URLs.
+Catalog images are stored as publicly accessible URL strings on each Firestore
+`catalog` document. Paste the URL into the admin catalog form. No Firebase
+Storage setup or Blaze billing is required.
 
 ## 5. Firebase Setup Requirements
 
@@ -174,9 +176,7 @@ The Firebase project must have:
 1. A **Cloud Firestore Standard edition** database with database ID `(default)`.
 2. Email/Password Authentication enabled.
 3. One admin user created under Authentication → Users.
-4. Firebase Storage enabled for catalog image uploads.
-5. The current `firestore.rules` published in Firestore → Rules.
-6. The current `storage.rules` published in Storage → Rules.
+4. The current `firestore.rules` published in Firestore → Rules.
 
 The Firestore database must be Standard edition. Enterprise edition is not
 compatible with the browser Firestore setup used by this project.
@@ -196,8 +196,8 @@ or private keys in the repository.
 - Anyone can increment a valid daily analytics record by one view.
 - Only signed-in admins can read analytics.
 
-`storage.rules` allows public image reads and signed-in admin image uploads. It
-limits uploads to image files smaller than 5 MB.
+The legacy `storage.rules` file is unused by the application and should not be
+published.
 
 Whenever the rules change, publish the complete current files in the Firebase
 console. Do not paste only one section into old rules without checking the rest
@@ -255,12 +255,11 @@ The phone number currently configured is `0759683053`, displayed as
 Publish the latest `firestore.rules`. The admin must be signed in before using
 the import button.
 
-### Image upload fails
+### Catalog image does not appear
 
-- Confirm Firebase Storage is enabled.
-- Publish the latest `storage.rules`.
-- Use an image file smaller than 5 MB.
-- Confirm the admin is signed in.
+- Confirm the URL is publicly accessible without signing in.
+- Confirm the URL points directly to an image and uses `https://` where possible.
+- Confirm the admin is signed in when saving the catalog record.
 
 ### Analytics is empty
 
@@ -276,5 +275,5 @@ Possible next improvements include:
 - Richer admin-managed occasion and design presentation.
 - Product quantities and ready-made product orders saved directly in Firestore.
 - Customer order notifications by email or WhatsApp automation.
-- Image compression before Firebase Storage upload.
+- Image URL validation and broken-image handling.
 - Custom domain setup.

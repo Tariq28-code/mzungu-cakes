@@ -78,8 +78,8 @@ Before using the dashboard:
 1. Enable Email/Password under Firebase Authentication.
 2. Create the admin user under Authentication → Users.
 3. Create the Firestore database.
-4. Enable Storage in the Firebase console, then publish both `firestore.rules`
-   and `storage.rules` from the Firebase console (or with the Firebase CLI).
+4. Publish `firestore.rules` from the Firebase console (or with the Firebase
+   CLI). Firebase Storage and Blaze billing are not required.
 
 The dashboard lets the signed-in admin view orders and change their status to
 New, Confirmed, Ready, or Completed. Keep only trusted users in Firebase
@@ -100,8 +100,9 @@ exist. The editor also controls accessible section transitions with
 as text, not arbitrary HTML, and reduced-motion preferences disable transitions.
 
 The **Orders** and **Catalog** navigation items retain the existing order
-status controls and catalog product/flavour editing, including Firebase Storage
-image uploads and deletion of catalog records.
+status controls and catalog editing. Catalog images use publicly accessible URL
+text fields, so image management does not require Firebase Storage or Blaze
+billing.
 
 ## Page-view analytics
 
@@ -121,8 +122,8 @@ The included `firestore.rules` intentionally allows public reads of
 `siteSettings`, `catalog`, and customer order creation, while authenticated
 Firebase users can write site settings and catalog records and manage orders.
 Do not remove the `siteSettings` rule or the existing order/catalog rules when
-publishing changes. Publish `storage.rules` as well so catalog image uploads
-remain limited to authenticated users, images, and 5 MB.
+publishing changes. The legacy `storage.rules` file is unused and should not be
+published.
 
 ## CMS catalog
 
@@ -132,8 +133,9 @@ Shapes have a name, add-on price, and optional image. Design directions have a
 name, occasion/type, description metadata, and optional image. Products and
 Occasions have a customer-facing name, base price, meta/description, availability,
 and optional image. Products and flavours retain their existing fields and preview.
-Images are stored under `catalog/` in Firebase Storage and must be image files
-no larger than 5 MB. Public visitors read available records from the Firestore
+Images are stored as publicly accessible URL strings in Firestore `catalog`
+documents. Paste an image URL into the admin form; no Firebase Storage or Blaze
+billing is required. Public visitors read available records from the Firestore
 `catalog` collection; if it has no usable records or cannot be reached, the
 hardcoded menu and flavour options remain visible.
 
@@ -146,6 +148,6 @@ multi-select checkboxes; the selection is included in the WhatsApp request.
 If no flavour is selected, the request asks the bakery to share available
 options. Refresh the public page after an admin catalogue change.
 The import action also seeds the built-in shapes and design directions without
-duplicating matching records. Publish updated
-rules after changing them, and test one public page load plus one authenticated
-catalog save/upload before launch.
+duplicating matching records. Publish updated Firestore rules after changing
+them, and test one public page load plus one authenticated catalog save before
+launch.
