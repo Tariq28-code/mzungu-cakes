@@ -102,5 +102,40 @@
        update();
     })();
     </script>
-  </body>
+ <script>
+ (function(){'use strict';
+   var kind=document.getElementById('catalogKind'),form=document.getElementById('catalogForm'),occasion=document.getElementById('catalogOccasion');
+   var option=document.createElement('option');option.value='occasion';option.textContent='Occasion';kind.appendChild(option);
+   function refreshDesignOccasions(records){
+     if(!occasion)return;
+     var selected=occasion.value, builtins=[['birthday','Birthday'],['wedding','Wedding'],['cupcakes','Cupcakes'],['custom','Custom / Other']], options=builtins.slice();
+     (records||[]).forEach(function(record){var item=record.data||{};if(!options.some(function(value){return value[0]===record.id;}))options.push([record.id,item.name||record.id]);});
+     occasion.innerHTML=options.map(function(value){return '<option value="'+escapeHTML(value[0])+'">'+escapeHTML(value[1])+'</option>';}).join('');
+     if(options.some(function(value){return value[0]===selected;}))occasion.value=selected;
+   }
+   window.refreshDesignOccasions=refreshDesignOccasions;
+   function updateOccasionFields(){var isOccasion=kind.value==='occasion';['catalogCategory','catalogUnit','catalogAddon','catalogColor'].forEach(function(id){var field=document.getElementById(id),label=document.querySelector('label[for="'+id+'"]');if(field)field.disabled=isOccasion;if(label)label.hidden=isOccasion;});var descriptionLabel=document.querySelector('label[for="catalogDescription"]');if(descriptionLabel)descriptionLabel.textContent=isOccasion?'Customer-facing meta / description':'Description';}
+   function updateOccasionPreview(){updateOccasionFields();if(kind.value==='occasion'){var label=document.querySelector('.catalog-preview-label span');if(label)label.textContent='Occasion';var category=document.querySelector('.catalog-preview-category');if(category)category.textContent='Cake occasion';}}
+   form.addEventListener('submit',function(event){
+     if(kind.value!=='occasion')return;
+     event.preventDefault();event.stopImmediatePropagation();
+     var id=document.getElementById('catalogId').value, name=document.getElementById('catalogName').value.trim(), file=document.getElementById('catalogImage').files[0], message=document.getElementById('catalogMessage');
+     message.textContent='Saving...';
+     var ref=id?db.collection('catalog').doc(id):db.collection('catalog').doc(slug(name));
+     var data={kind:'occasion',name:name,price:Number(document.getElementById('catalogPrice').value||0),meta:document.getElementById('catalogDescription').value.trim(),description:document.getElementById('catalogDescription').value.trim(),available:document.getElementById('catalogAvailable').checked,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+     (file?storage.ref('catalog/'+ref.id+'-'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_')).put(file).then(function(upload){return upload.ref.getDownloadURL();}):Promise.resolve(null)).then(function(image){if(image)data.image=image;return ref.set(data,{merge:true});}).then(function(){document.getElementById('cancelCatalogBtn').click();message.className='catalog-message success';message.textContent='Catalog item saved.';loadCatalog();}).catch(function(error){message.className='catalog-message error';message.textContent=error.message;});
+   },true);
+   kind.addEventListener('change',updateOccasionPreview);form.addEventListener('input',updateOccasionPreview);
+   document.addEventListener('click',function(event){if(!event.target.classList.contains('edit-catalog'))return;setTimeout(function(){var name=document.getElementById('catalogName').value.trim();if(kind.value==='occasion')db.collection('catalog').where('kind','==','occasion').where('name','==',name).get().then(function(snapshot){if(!snapshot.empty)document.getElementById('catalogId').value=snapshot.docs[0].id;});},0);});
+   document.getElementById('importCatalogBtn').addEventListener('click',function(){
+     var items=[{id:'birthday',name:'Birthday',price:40000,meta:'A joyful cake for birthdays and milestones.'},{id:'wedding',name:'Wedding',price:150000,meta:'Elegant cakes made for your wedding celebration.'},{id:'cupcakes',name:'Cupcakes',price:28000,meta:'Boxed by the dozen for parties, gifting, and sharing.'},{id:'custom',name:'Custom / Other',price:60000,meta:'Tell us your idea and we will shape it with you.'}];
+     if(!auth.currentUser)return;
+     db.collection('catalog').get().then(function(snapshot){var batch=db.batch(),writes=0;items.forEach(function(item){var exists=false;snapshot.forEach(function(doc){var old=doc.data();if(old.kind==='occasion'&&((doc.id===item.id)||(old.name===item.name)))exists=true;});if(!exists){writes++;batch.set(db.collection('catalog').doc(item.id),{kind:'occasion',name:item.name,price:item.price,meta:item.meta,description:item.meta,available:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}});return writes?batch.commit():Promise.resolve();}).then(function(){loadCatalog();});
+   });
+   function slug(value){return String(value).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'occasion';}
+   function escapeHTML(value){var div=document.createElement('div');div.textContent=String(value);return div.innerHTML;}
+   refreshDesignOccasions([]);updateOccasionPreview();
+ })();
+ </script>
+ </body>
 </html>

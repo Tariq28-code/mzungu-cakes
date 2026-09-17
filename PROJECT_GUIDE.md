@@ -61,27 +61,28 @@ Order statuses are `New`, `Confirmed`, `Ready`, and `Completed`.
 
 ### Catalog
 
-The Catalog area controls public products, cake-builder flavours, shapes, and
-design directions.
+The Catalog area controls public products, cake-builder occasions and flavours,
+shapes, and design directions.
 
 The **Import current menu and flavours** button creates the original built-in
-items in Firebase, including the built-in shapes and three design directions for
-each occasion. It skips matching kind/name/occasion records, so it is safe to
-use once during setup.
+items in Firebase, including four built-in occasions, the built-in shapes, and
+three design directions for each occasion. It skips matching records, so it is
+safe to use repeatedly during setup.
 
 The admin can then:
 
-- Add products, flavours, shapes, or design directions.
+- Add products, flavours, occasions, shapes, or design directions.
 - Edit existing items.
 - Delete items.
 - Change names, categories, descriptions, prices, units, and availability.
 - Set flavour add-on prices and flavour colours.
 - Set shape add-on prices and choose a design occasion/type.
-- Upload optional product, flavour, shape, and design images.
+- Set occasion base prices, customer-facing meta text, and availability.
+- Upload optional product, flavour, occasion, shape, and design images.
 - Preview an item before saving it.
 
-When catalog records exist, the public website uses them instead of the
-built-in fallback menu and flavour data. If Firebase is empty or unavailable,
+When available occasion records exist, the public website uses them instead of
+the built-in occasion data. If Firebase is empty or unavailable,
 the website falls back to its built-in content so the public page can still
 load.
 Cupcake cards use accessible multi-select flavour checkboxes from the active
@@ -272,7 +273,7 @@ Possible next improvements include:
 
 - Unique visitor analytics and traffic sources through Google Analytics reports.
 - Delivery fee configuration.
-- Admin-created occasion designs instead of built-in design examples.
+- Richer admin-managed occasion and design presentation.
 - Product quantities and ready-made product orders saved directly in Firestore.
 - Customer order notifications by email or WhatsApp automation.
 - Image compression before Firebase Storage upload.

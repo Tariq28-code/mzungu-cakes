@@ -127,16 +127,20 @@ remain limited to authenticated users, images, and 5 MB.
 ## CMS catalog
 
 Open `admin.html` and sign in with the Firebase admin user. The Catalog section
-supports structured product, flavour, cake shape, and design-direction records.
+supports structured product, flavour, occasion, cake shape, and design-direction records.
 Shapes have a name, add-on price, and optional image. Design directions have a
 name, occasion/type, description metadata, and optional image. Products and
-flavours retain their existing fields and preview.
+Occasions have a customer-facing name, base price, meta/description, availability,
+and optional image. Products and flavours retain their existing fields and preview.
 Images are stored under `catalog/` in Firebase Storage and must be image files
 no larger than 5 MB. Public visitors read available records from the Firestore
 `catalog` collection; if it has no usable records or cannot be reached, the
 hardcoded menu and flavour options remain visible.
 
-Catalog documents use `kind: 'product'`, `'flavour'`, `'shape'`, or `'design'`.
+Catalog documents use `kind: 'product'`, `'flavour'`, `'occasion'`, `'shape'`, or
+`'design'`. Available occasion records replace the built-in builder occasions;
+if none exist, the built-in four remain the fallback. The import action seeds
+those four occasions idempotently as well as the existing shapes and designs.
 Cupcake ordering shows the currently available flavour records as accessible
 multi-select checkboxes; the selection is included in the WhatsApp request.
 If no flavour is selected, the request asks the bakery to share available
